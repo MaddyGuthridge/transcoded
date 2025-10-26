@@ -19,8 +19,9 @@ export async function parseMediaFile(
   const productionFileDir = isMainFeature
     ? productionItemPath
     : path.join(productionItemPath, 'extras', removeFileExtension(mediaFile));
+
   return {
-    path: path.join(stagingRoot, itemPath, mediaFile),
+    path: mediaFile,
     encodings: await findEncodings(
       productionFileDir,
       encodingPresets,
@@ -39,6 +40,9 @@ export async function findEncodings(
   encodingPresets: string[],
   itemTitle: string,
 ): Promise<string[]> {
+  if (! await fs.exists(productionFileDir)) {
+    return [];
+  }
   const mediaFiles = (await fs.readdir(productionFileDir, { withFileTypes: true }))
     .filter(dirEnt => fileIsMedia(dirEnt))
     .map(dirEnt => dirEnt.name);

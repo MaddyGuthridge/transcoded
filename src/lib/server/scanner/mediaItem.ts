@@ -2,7 +2,6 @@ import type { MediaItem } from "./types";
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileIsMedia } from "./helpers";
-import type { Dirent } from "node:fs";
 import { parseMediaFile } from "./mediaFile";
 
 /**
@@ -14,28 +13,32 @@ export async function parseMediaItem(
   encodingPresets: string[],
   itemPath: string,
 ): Promise<MediaItem> {
+  const itemStaging = path.join(stagingRoot, itemPath);
   const title = path.basename(itemPath);
-  const mediaFiles = (await fs.readdir(itemPath, { withFileTypes: true, recursive: true }))
-    .filter(dirEnt => fileIsMedia(dirEnt));
-  const mainFeature = await determineMainFeature(itemPath, mediaFiles);
-  const otherFiles = mediaFiles
-    .map(dirEnt => path.join(dirEnt.parentPath, dirEnt.name))
-    .filter(f => f !== mainFeature);
+  const mediaFiles = (await fs.readdir(itemStaging, { withFileTypes: true, recursive: true }))
+    .filter(dirEnt => fileIsMedia(dirEnt))
+    .map(dirEnt => path.relative(itemStaging, path.join(dirEnt.parentPath, dirEnt.name)));
+
+  const mainFeature = await determineMainFeature(itemStaging, mediaFiles);
+
+  const otherFiles = mediaFiles.filter(f => f !== mainFeature);
+
+  const mainFile = mainFeature
+    ? await parseMediaFile(
+      stagingRoot,
+      productionRoot,
+      encodingPresets,
+      itemPath,
+      mainFeature,
+      title,
+      true
+    )
+    : undefined;
 
   return {
     path: itemPath,
     title,
-    mainFile: mainFeature
-      ? await parseMediaFile(
-        stagingRoot,
-        productionRoot,
-        encodingPresets,
-        itemPath,
-        mainFeature,
-        title,
-        true,
-      )
-      : undefined,
+    mainFile,
     files: await Promise.all(
       otherFiles.map(async f => await parseMediaFile(
         stagingRoot,
@@ -59,19 +62,19 @@ export async function parseMediaItem(
  * - Otherwise, the main feature is undecidable.
  */
 async function determineMainFeature(
-  itemPath: string,
-  mediaFiles: Dirent<string>[],
+  itemStaging: string,
+  mediaFiles: string[],
 ): Promise<string | undefined> {
   const mainFeatureRegex = /MainFeature/;
   const mainFeatures: string[] = [];
   const filesInRoot: string[] = [];
   for (const f of mediaFiles) {
-    if (mainFeatureRegex.test(f.name) || mainFeatureRegex.test(f.parentPath)) {
+    if (mainFeatureRegex.test(f)) {
       // Contains 'MainFeature';
-      mainFeatures.push(path.join(f.parentPath, f.name));
-    } else if (f.parentPath === itemPath) {
+      mainFeatures.push(f);
+    } else if (path.dirname(f) === '.') {
       // Is in directory root
-      filesInRoot.push(f.name);
+      filesInRoot.push(f);
     }
   }
 

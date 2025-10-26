@@ -2,8 +2,8 @@ import path from 'node:path';
 import type { Dirent } from "node:fs";
 
 export const mediaFormats = [
-  'mkv',
-  'mp4',
+  '.mkv',
+  '.mp4',
 ]
 
 /** Return whether a file is a media file */
