@@ -27,6 +27,10 @@ This project is a work in progress.
 * [ ] Automate the process of transcoding media for use with Jellyfin
     * [ ] Transcoding operations in Handbrake
     * [ ] Queuing these operations in a web UI
+* [ ] Have a simple auth system such that only authorized users can modify the
+      encoding queue.
+    * As this project is intended for home use, the auth will be extremely 
+      simple.
 
 ## Additional notes
 
