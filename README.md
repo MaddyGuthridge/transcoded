@@ -8,10 +8,14 @@ Allows for managing your media library using a simple web interface.
 
 This project is a work in progress.
 
-* [ ] Manage my staging and media libraries
-    * [ ] Detect media in staging and media libraries
-    * [ ] Use media library structure to determine how media has been transcoded
-      (ie resolutions)
+* [ ] Manage my staging and production media libraries
+    * [x] Detect media in staging and production media libraries
+    * [x] Use media library structure to determine how media has been transcoded
+          (ie resolutions)
+    * [x] Determine the "main feature" of a media entry.
+    * [ ] Detect extracted subtitles in production library
+    * [ ] Detect additional available subtitles in staging library
+    * [ ] Display this information in a front-end
 * [ ] Automate the process of transcoding media for use with Jellyfin, queuing:
     * [ ] Transcoding operations in Handbrake
     * [ ] Extracting subtitle tracks from MKV files
@@ -30,6 +34,12 @@ $ bun install
 
 ```sh
 $ bun run dev
+```
+
+### Run the test suite
+
+```sh
+$ bun test
 ```
 
 ### Build for production

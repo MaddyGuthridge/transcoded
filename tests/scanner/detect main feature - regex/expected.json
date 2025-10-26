@@ -1,0 +1,20 @@
+[
+  {
+    "path": "The Roasted Duck",
+    "title": "The Roasted Duck",
+    "mainFile": {
+      "path": "The Roasted Duck - MainFeature.mkv",
+      "encodings": [],
+      "extractedSubtitles": [],
+      "availableSubtitles": []
+    },
+    "files": [
+      {
+        "path": "Directors Commentary.mkv",
+        "encodings": [],
+        "extractedSubtitles": [],
+        "availableSubtitles": []
+      }
+    ]
+  }
+]

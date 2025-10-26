@@ -5,9 +5,11 @@ import { scanLibrary } from '$lib/server/scanner';
 
 const presets = ['1080p', '2160p'];
 
-const testCasesDir = path.join(__dirname, 'scannerFiles');
+const testCasesDir = __dirname;
 
-const testCases = await fs.readdir(testCasesDir);
+const testCases = (await fs.readdir(testCasesDir, { withFileTypes: true }))
+  .filter(dirEnt => dirEnt.isDirectory())
+  .map(dirEnt => dirEnt.name);
 
 test.each(testCases)(`Scanner produces correct library scan: %s`, async directory => {
   const staging = path.join(testCasesDir, directory, 'staging');
