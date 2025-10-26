@@ -10,13 +10,13 @@ export type EmbeddedSubtitleInfo = {
   name: string | undefined
 }
 
-export type ExtractedSubtitleInfo = {
-  /** Subtitle track language, as an IETF language tag */
-  language: string
-  /** Subtitle file type (eg "srt") */
-  file: string
-  /** The name of the subtitle track, if present */
-  name: string | undefined
+export type EncodingInfo = {
+  /** The file-name of this particular encoding of the media file */
+  filename: string
+  /** The name of the preset used when encoding this version of the media file */
+  preset: string
+  // /** The collection of subtitles embedded in this encoding */
+  // embeddedSubtitles: EmbeddedSubtitleInfo[],
 }
 
 /**
@@ -32,17 +32,11 @@ export type MediaFile = {
    */
   path: string,
   /** A list of all the produced encodings of the media file */
-  encodings: string[],
-  /** 
-   * Extracted subtitles for this item.
-   * 
-   * For example, if only English subtitles have been extracted, this would be `['en']`.
-   */
-  extractedSubtitles: ExtractedSubtitleInfo[],
-  /**
-   * List of available subtitles, generated from `mkvinfo`.
-   */
-  availableSubtitles: EmbeddedSubtitleInfo[],
+  encodings: EncodingInfo[],
+  // /**
+  //  * List of available subtitles in the source material, generated from `mkvinfo`.
+  //  */
+  // availableSubtitles: EmbeddedSubtitleInfo[],
 }
 
 /**

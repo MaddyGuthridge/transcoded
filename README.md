@@ -2,7 +2,17 @@
 
 A video transcoding manager for home media servers.
 
-Allows for managing your media library using a simple web interface.
+Essentially, this tool allows you to have a "staging" library, where you keep
+full-quality rips of your media, and a "production" library which is what your
+media server accesses.
+
+## Similar projects
+
+* [Tdarr](https://home.tdarr.io/): way larger feature scope, but closed-source.
+  Probably far more powerful than I personally need.
+* [Handbrake Web](https://github.com/TheNickOfTime/handbrake-web): only supports
+  the encoding queue, meaning there is no reliable system to check what
+  has/hasn't been encoded.
 
 ## Goals
 
@@ -12,13 +22,23 @@ This project is a work in progress.
     * [x] Detect media in staging and production media libraries
     * [x] Use media library structure to determine how media has been transcoded
           (ie resolutions)
-    * [x] Determine the "main feature" of a media entry.
-    * [ ] Detect extracted subtitles in production library
-    * [ ] Detect additional available subtitles in staging library
-    * [ ] Display this information in a front-end
-* [ ] Automate the process of transcoding media for use with Jellyfin, queuing:
+    * [x] Determine the "main feature" of a media entry
+    * [ ] Display this information in a web UI
+* [ ] Automate the process of transcoding media for use with Jellyfin
     * [ ] Transcoding operations in Handbrake
-    * [ ] Extracting subtitle tracks from MKV files
+    * [ ] Queuing these operations in a web UI
+
+## Additional notes
+
+* While Jellyfin supports external subtitle and audio tracks, supporting them is
+  very tedious, and so this library intentionally does not support extracting
+  them. Instead, you should set up your Handbrake presets to include subtitle
+  tracks from the originals. I recommend encoding to the
+  [`.mkv`](https://en.wikipedia.org/wiki/Matroska) format, which has excellent
+  support for alternate audio and subtitle tracks. Remuxing to `.mp4` does not
+  require significant resources, and so as long as the contained video is in a
+  good format, Jellyfin will have no troubles streaming media in this format to
+  clients.
 
 ## Developing
 

@@ -4,9 +4,9 @@
     "title": "The Roasted Duck",
     "mainFile": {
       "path": "The Roasted Duck.mkv",
-      "encodings": ["1080p"],
-      "extractedSubtitles": [],
-      "availableSubtitles": []
+      "encodings": [
+        { "filename": "The Roasted Duck - [1080p].mp4", "preset": "1080p" }
+      ]
     },
     "files": []
   }

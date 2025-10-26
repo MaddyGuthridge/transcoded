@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises';
 import path from "node:path";
-import type { MediaFile } from "./types";
+import type { EncodingInfo, MediaFile } from "./types";
 import { fileIsMedia, removeFileExtension } from './helpers';
-import * as mkv from '../mkvWrapper';
+// import * as mkv from '../mkvWrapper';
 
 /**
  * Determine information about the given media file.
@@ -21,7 +21,7 @@ export async function parseMediaFile(
     ? productionItemPath
     : path.join(productionItemPath, 'extras', removeFileExtension(mediaFile));
 
-  const itemStagingFile = path.join(stagingRoot, itemPath, mediaFile);
+  // const itemStagingFile = path.join(stagingRoot, itemPath, mediaFile);
   
   return {
     path: mediaFile,
@@ -30,8 +30,7 @@ export async function parseMediaFile(
       encodingPresets,
       itemTitle,
     ),
-    extractedSubtitles: [],
-    availableSubtitles: await mkv.findSubtitleTracks(itemStagingFile),
+    // availableSubtitles: await mkv.findSubtitleTracks(itemStagingFile),
   };
 }
 
@@ -42,7 +41,7 @@ export async function findEncodings(
   productionFileDir: string,
   encodingPresets: string[],
   itemTitle: string,
-): Promise<string[]> {
+): Promise<EncodingInfo[]> {
   if (! await fs.exists(productionFileDir)) {
     return [];
   }
@@ -50,8 +49,16 @@ export async function findEncodings(
     .filter(dirEnt => fileIsMedia(dirEnt))
     .map(dirEnt => dirEnt.name);
   return encodingPresets
-    .filter(preset => {
+    .map(preset => {
       const regex = new RegExp(`^${itemTitle} \\- \\[${preset}\\]\\.`);
-      return mediaFiles.find(f => regex.test(f)) !== undefined;
-    });
+      const match = mediaFiles.find(f => regex.test(f));
+      if (match) {
+        // A match was found for this preset
+        return { filename: match, preset };
+      } else {
+        // It hasn't been encoded to this preset yet
+        return undefined;
+      }
+    })
+    .filter(info => info !== undefined);
 }
