@@ -1,5 +1,24 @@
 /** Type definitions for media library scanner */
 
+/** Subtitle track embedded into media */
+export type EmbeddedSubtitleInfo = {
+  /** MKV track ID */
+  id: number
+  /** Subtitle track language, as an IETF language tag */
+  language: string
+  /** The name of the subtitle track, if present */
+  name: string | undefined
+}
+
+export type ExtractedSubtitleInfo = {
+  /** Subtitle track language, as an IETF language tag */
+  language: string
+  /** Subtitle file type (eg "srt") */
+  file: string
+  /** The name of the subtitle track, if present */
+  name: string | undefined
+}
+
 /**
  * A single staging file, a part of a media item.
  * 
@@ -19,11 +38,11 @@ export type MediaFile = {
    * 
    * For example, if only English subtitles have been extracted, this would be `['en']`.
    */
-  extractedSubtitles: string[],
+  extractedSubtitles: ExtractedSubtitleInfo[],
   /**
    * List of available subtitles, generated from `mkvinfo`.
    */
-  availableSubtitles: string[],
+  availableSubtitles: EmbeddedSubtitleInfo[],
 }
 
 /**

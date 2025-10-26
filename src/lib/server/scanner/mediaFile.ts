@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from "node:path";
 import type { MediaFile } from "./types";
 import { fileIsMedia, removeFileExtension } from './helpers';
+import * as mkv from '../mkvWrapper';
 
 /**
  * Determine information about the given media file.
@@ -20,6 +21,8 @@ export async function parseMediaFile(
     ? productionItemPath
     : path.join(productionItemPath, 'extras', removeFileExtension(mediaFile));
 
+  const itemStagingFile = path.join(stagingRoot, itemPath, mediaFile);
+  
   return {
     path: mediaFile,
     encodings: await findEncodings(
@@ -28,7 +31,7 @@ export async function parseMediaFile(
       itemTitle,
     ),
     extractedSubtitles: [],
-    availableSubtitles: [],
+    availableSubtitles: await mkv.findSubtitleTracks(itemStagingFile),
   };
 }
 
