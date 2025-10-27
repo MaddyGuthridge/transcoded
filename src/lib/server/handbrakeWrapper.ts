@@ -1,11 +1,5 @@
 import { execa } from "execa";
-import path from "node:path";
-import { promisify } from "node:util";
-import { Tail } from "tail";
-import { dir } from "tmp";
-
-/** Make a temporary directory */
-const mktemp = promisify(dir);
+import type { Readable } from "node:stream";
 
 const handbrakeCli = 'HandBrakeCLI';
 
@@ -40,42 +34,23 @@ export async function handbrake(
   abort: AbortSignal,
   onProgress: (progress: ProgressEvent) => void,
 ) {
-  // Handbrake delimits its progress messages using `\r`, which `execa` cannot progressively iterate
-  // over. As such, we need to put the data into temporary files, which we then tail. This is
-  // incredibly hacky, but I was able to write it faster than the following github issues were
-  // resolved:
-  // * https://github.com/sindresorhus/execa/issues/1210
-  // * https://github.com/sindresorhus/execa/issues/1211
-  const outputs = await mktemp();
-  const stdout = path.join(outputs, 'stdout');
-  const stderr = path.join(outputs, 'stderr');
-
-  // Touch file so that tail doesn't fail if file doesn't exist yet
-  await Bun.file(stdout).write('');
-
-  const process = execa({
-    stdout: { file: stdout },
-    stderr: { file: stderr },
-    cancelSignal: abort,
-  })`${handbrakeCli}
+  const process = execa({ cancelSignal: abort })`${handbrakeCli}
     -x threads=${threads}
     --input ${input}
     --output ${output}
     --preset-import-file ${preset.file}
     -Z ${preset.name}`;
 
-  const progress = new Tail(stdout, { separator: /\r/ });
-
-  progress.on("line", line => {
+  for await (const line of splitByDelimiter(process.stdout, '\r')) {
     onProgress(parseProgress(line));
-  });
+  }
 
-  await process;
-
-  progress.unwatch();
+  const exitStatus = await process;
+  // TODO: Stream stderr logs
+  const stderr = exitStatus.stderr;
 }
 
-function parseProgress(line: string): ProgressEvent {
+export function parseProgress(line: string): ProgressEvent {
   // Encoding: task 1 of 1, 0.16 %
   const simpleProgress = /^Encoding: task \d+ of \d+, (?<percent>\d+.\d+) %$/;
   // Encoding: task 1 of 1, 0.17 % (35.56 fps, avg 49.69 fps, ETA 00h42m25s)
@@ -105,4 +80,32 @@ function parseProgress(line: string): ProgressEvent {
   } else {
     return { message: line };
   }
+}
+
+/**
+ * Split the given stream based on the given delimiter
+ * 
+ * Handbrake delimits its progress messages using `\r`, which execa doesn't support directly.
+ * As such, we need to manually split the stream.
+ *
+ * Based on https://github.com/sindresorhus/execa/issues/1210#issuecomment-3448664071
+ */
+export async function* splitByDelimiter(stream: Readable, delimiter: string | RegExp) {
+	let buffer = '';
+
+	for await (const chunk of stream) {
+		buffer += chunk;
+		const parts = buffer.split(delimiter);
+		buffer = parts.pop()!;
+
+		for (const part of parts) {
+			if (part) {
+				yield part;
+			}
+		}
+	}
+
+	if (buffer) {
+		yield buffer;
+	}
 }
