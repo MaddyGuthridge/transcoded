@@ -18,12 +18,12 @@ media server accesses.
 
 This project is a work in progress.
 
-* [ ] Manage my staging and production media libraries
+* [x] Manage my staging and production media libraries
     * [x] Detect media in staging and production media libraries
     * [x] Use media library structure to determine how media has been transcoded
           (ie resolutions)
     * [x] Determine the "main feature" of a media entry
-    * [ ] Display this information in a web UI
+    * [x] Display this information in a web UI
 * [ ] Automate the process of transcoding media for use with Jellyfin
     * [x] Transcoding operations in Handbrake
     * [ ] Queuing these operations in a web UI

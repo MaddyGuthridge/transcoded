@@ -1,0 +1,12 @@
+# List of media libraries to scan
+libraries:
+  - # Each library has a display name
+    name: "Test library"
+    # A path to the staging directory. This is where you should place
+    # full-quality rips of your media.
+    staging: "data/staging"
+    # A path to the production directory. This is where Transcoded will place
+    # encodings of your media
+    production: "data/production"
+# Path to the presets directory
+presets: "data/presets"

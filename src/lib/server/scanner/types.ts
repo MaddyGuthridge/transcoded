@@ -1,5 +1,7 @@
 /** Type definitions for media library scanner */
 
+export type EncodeStatus = 'complete' | 'queued' | 'encoding';
+
 /** Subtitle track embedded into media */
 export type EmbeddedSubtitleInfo = {
   /** MKV track ID */
@@ -17,6 +19,7 @@ export type EncodingInfo = {
   preset: number,
   // /** The collection of subtitles embedded in this encoding */
   // embeddedSubtitles: EmbeddedSubtitleInfo[],
+  status: EncodeStatus,
 };
 
 /**
