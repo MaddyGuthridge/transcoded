@@ -1,16 +1,22 @@
-[
-  {
-    "path": "The Roasted Duck",
-    "title": "The Roasted Duck",
-    "mainFile": {
-      "path": "The Roasted Duck.mkv",
-      "encodings": []
-    },
-    "files": [
-      {
-        "path": "extras/Directors Commentary.mkv",
-        "encodings": []
-      }
-    ]
-  }
-]
+{
+  "items": [
+    {
+      "id": 0,
+      "path": "The Roasted Duck",
+      "title": "The Roasted Duck",
+      "mainFile": 0,
+      "files": [
+        {
+          "id": 0,
+          "path": "The Roasted Duck.mkv",
+          "encodings": []
+        },
+        {
+          "id": 1,
+          "path": "extras/Directors Commentary.mkv",
+          "encodings": []
+        }
+      ]
+    }
+  ]
+}

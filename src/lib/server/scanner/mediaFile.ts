@@ -21,7 +21,7 @@ export async function parseMediaFile(
   const productionItemPath = path.join(productionRoot, itemPath);
   const productionFileDir = isMainFeature
     ? productionItemPath
-    : path.join(productionItemPath, 'extras', removeFileExtension(mediaFile));
+    : path.join(productionItemPath, removeFileExtension(mediaFile));
 
   // const itemStagingFile = path.join(stagingRoot, itemPath, mediaFile);
 
@@ -57,7 +57,7 @@ export async function findEncodings(
       const match = mediaFiles.find(f => regex.test(f));
       if (match) {
         // A match was found for this preset
-        return { filename: match, preset: preset.id };
+        return { filename: match, preset: preset.id, status: 'complete' } satisfies EncodingInfo;
       } else {
         // It hasn't been encoded to this preset yet
         return undefined;

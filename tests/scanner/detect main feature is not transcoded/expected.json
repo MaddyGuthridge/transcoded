@@ -1,11 +1,17 @@
-[
-  {
-    "path": "The Roasted Duck",
-    "title": "The Roasted Duck",
-    "mainFile": {
-      "path": "The Roasted Duck.mkv",
-      "encodings": []
-    },
-    "files": []
-  }
-]
+{
+  "items": [
+    {
+      "id": 0,
+      "path": "The Roasted Duck",
+      "title": "The Roasted Duck",
+      "mainFile": 0,
+      "files": [
+        {
+          "id": 0,
+          "path": "The Roasted Duck.mkv",
+          "encodings": []
+        }
+      ]
+    }
+  ]
+}

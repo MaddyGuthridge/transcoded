@@ -38,7 +38,7 @@ export async function parseMediaItem(
         itemPath,
         f,
         title,
-        false,
+        i === mainFeature,
       )),
     ),
   };

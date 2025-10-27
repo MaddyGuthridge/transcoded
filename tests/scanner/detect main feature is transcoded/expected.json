@@ -1,13 +1,19 @@
-[
-  {
-    "path": "The Roasted Duck",
-    "title": "The Roasted Duck",
-    "mainFile": {
-      "path": "The Roasted Duck.mkv",
-      "encodings": [
-        { "filename": "The Roasted Duck - [1080p].mp4", "preset": "1080p" }
+{
+  "items": [
+    {
+      "id": 0,
+      "path": "The Roasted Duck",
+      "title": "The Roasted Duck",
+      "mainFile": 0,
+      "files": [
+        {
+          "id": 0,
+          "path": "The Roasted Duck.mkv",
+          "encodings": [
+            { "filename": "The Roasted Duck - [1080p].mp4", "preset": 0, "status": "complete" }
+          ]
+        }
       ]
-    },
-    "files": []
-  }
-]
+    }
+  ]
+}
