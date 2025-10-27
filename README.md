@@ -25,7 +25,7 @@ This project is a work in progress.
     * [x] Determine the "main feature" of a media entry
     * [ ] Display this information in a web UI
 * [ ] Automate the process of transcoding media for use with Jellyfin
-    * [ ] Transcoding operations in Handbrake
+    * [x] Transcoding operations in Handbrake
     * [ ] Queuing these operations in a web UI
 * [ ] Have a simple auth system such that only authorized users can modify the
       encoding queue.
@@ -35,7 +35,7 @@ This project is a work in progress.
 ## Additional notes
 
 * While Jellyfin supports external subtitle and audio tracks, supporting them is
-  very tedious, and so this library intentionally does not support extracting
+  very tedious, and so this tool intentionally does not support extracting
   them. Instead, you should set up your Handbrake presets to include subtitle
   tracks from the originals. I recommend encoding to the
   [`.mkv`](https://en.wikipedia.org/wiki/Matroska) format, which has excellent
@@ -48,7 +48,12 @@ This project is a work in progress.
 
 Using the [`bun`](https://bun.com/) package manager in JS.
 
-### Install dependencies
+### Install CLI dependencies
+
+* `HandBrakeCLI` -- to run transcoding operations
+* `mkvmerge` -- to extract metadata for media
+
+### Install JS dependencies
 
 ```sh
 $ bun install
@@ -68,7 +73,8 @@ $ bun test
 
 ### Build for production
 
-The project is not in a state where I have tried setting this up yet.
+The project is not in a state where I have tried setting this up yet. 
+Eventually, I plan for this to be dockerized.
 
 ```sh
 $ bun run build
