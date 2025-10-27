@@ -12,16 +12,29 @@
 
   let expanded = $state(false);
 
+  const mainFile = $derived(item.files.find(f => f.id === item.mainFile));
+  const title = $derived(`${expanded ? '▾' : '▸'} ${item.title}`);
+
   function toggle() {
     expanded = !expanded;
   }
 </script>
 
 <tr role="switch" aria-checked={expanded} onclick={toggle}>
-  <td>{expanded ? '▾' : '▸'} {item.title}</td>
+  {#if mainFile}
+    {#if !expanded}
+      <MediaFile file={mainFile} {presets} main={false} titleOverride={title} />
+    {:else}
+      <td>{title}</td>
+    {/if}
+  {:else}
+    <td>{title}</td>
+  {/if}
 </tr>
 {#if expanded}
   {#each item.files as file (file.id)}
-    <MediaFile {file} {presets} main={file.id === item.mainFile} />
+    <tr>
+      <MediaFile {file} {presets} main={file.id === item.mainFile} />
+    </tr>
   {/each}
 {/if}

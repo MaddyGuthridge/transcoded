@@ -44,13 +44,10 @@ async function loadPresetFile(
  * them.
  */
 export async function findPresets(presetsDir: string): Promise<PresetInfo[]> {
-  console.log(presetsDir);
   const presetFiles = (await fs.readdir(presetsDir, { recursive: true, withFileTypes: true }))
     .filter(f => f.isFile())
     .filter(f => path.extname(f.name) === '.json')
     .map(f => path.join(path.relative(presetsDir, f.parentPath), f.name));
-
-  console.log(presetFiles);
 
   const presets: PresetInfo[] = [];
 

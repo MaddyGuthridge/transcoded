@@ -7,9 +7,11 @@
     presets: PresetInfo[],
     /** Whether this is the main feature for the media item */
     main: boolean,
+    /** Override the title */
+    titleOverride?: string | undefined,
   };
 
-  const { main, file, presets }: Props = $props();
+  const { main, file, presets, titleOverride = undefined }: Props = $props();
 
   function representStatus(status: EncodeStatus) {
     switch (status) {
@@ -18,18 +20,18 @@
       case 'queued': return '🕑';
     }
   }
+
+  const title = $derived(titleOverride ?? `${main ? '⭐ ' : ''}${file.path}`);
 </script>
 
-<tr>
-  <td>{main ? '⭐ ' : ''}{file.path}</td>
-  {#each presets as preset (preset.id)}
-    {@const encoding = file.encodings.find(enc => enc.preset === preset.id)}
-    <td>
-      {#if encoding !== undefined}
-        {representStatus(encoding.status)}
-      {:else}
-        ❌
-      {/if}
-      </td>
-  {/each}
-</tr>
+<td>{title}</td>
+{#each presets as preset (preset.id)}
+  {@const encoding = file.encodings.find(enc => enc.preset === preset.id)}
+  <td>
+    {#if encoding !== undefined}
+      {representStatus(encoding.status)}
+    {:else}
+      ❌
+    {/if}
+    </td>
+{/each}
