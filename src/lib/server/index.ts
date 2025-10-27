@@ -24,15 +24,17 @@ export async function startup() {
 
   config = await getConfig();
   presets = await findPresets(config.presets);
-  for (const library of config.libraries) {
-    media.push(await scanLibrary(
-      media.length,
-      library.name,
-      library.staging,
-      library.production,
-      presets,
-    ));
-  }
+  media = await Promise.all(
+    config.libraries.map((library, id) =>
+      scanLibrary(
+        id,
+        library.name,
+        library.staging,
+        library.production,
+        presets,
+      ),
+    ),
+  );
 }
 
 export function getStatus() {
