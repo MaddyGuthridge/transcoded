@@ -56,7 +56,7 @@ function determineMainFeature(
   itemStaging: string,
   mediaFiles: string[],
 ): number | undefined {
-  const mainFeatureRegex = /main[\w\-_]?feature/;
+  const mainFeatureRegex = /main[ \-_]?feature/;
   const mainFeatures: number[] = [];
   const filesInRoot: number[] = [];
   for (const [i, f] of enumerate(mediaFiles)) {

@@ -31,7 +31,6 @@ export async function parseMediaFile(
     encodings: await findEncodings(
       productionFileDir,
       encodingPresets,
-      itemTitle,
     ),
     // availableSubtitles: await mkv.findSubtitleTracks(itemStagingFile),
   };
@@ -43,7 +42,6 @@ export async function parseMediaFile(
 export async function findEncodings(
   productionFileDir: string,
   encodingPresets: PresetInfo[],
-  itemTitle: string,
 ): Promise<EncodingInfo[]> {
   if (!await fs.exists(productionFileDir)) {
     return [];
@@ -53,7 +51,7 @@ export async function findEncodings(
     .map(dirEnt => dirEnt.name);
   return encodingPresets
     .map((preset) => {
-      const regex = new RegExp(`^${itemTitle} \\- \\[${preset.name}\\]\\.`);
+      const regex = new RegExp(`\\- \\[${preset.name}\\]\\.`);
       const match = mediaFiles.find(f => regex.test(f));
       if (match) {
         // A match was found for this preset

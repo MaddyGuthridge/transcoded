@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PresetInfo } from '$lib/server/handbrakePresets';
-  import type { EncodeStatus, MediaFile } from '$lib/server/scanner/types';
+  import type { EncodingInfo, MediaFile } from '$lib/server/scanner/types';
 
   type Props = {
     file: MediaFile,
@@ -13,9 +13,9 @@
 
   const { main, file, presets, titleOverride = undefined }: Props = $props();
 
-  function representStatus(status: EncodeStatus) {
-    switch (status) {
-      case 'complete': return '✅';
+  function representStatus(encoding: EncodingInfo) {
+    switch (encoding.status) {
+      case 'complete': return `✅ ${encoding.filename}`;
       case 'encoding': return '⏳';
       case 'queued': return '🕑';
     }
@@ -29,7 +29,7 @@
   {@const encoding = file.encodings.find(enc => enc.preset === preset.id)}
   <td>
     {#if encoding !== undefined}
-      {representStatus(encoding.status)}
+      {representStatus(encoding)}
     {:else}
       ❌
     {/if}
