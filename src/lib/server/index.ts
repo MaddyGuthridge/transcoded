@@ -37,6 +37,12 @@ export async function startup() {
   );
 }
 
-export function getStatus() {
-
+/**
+ * Return all the server's data
+ */
+export function getData() {
+  return {
+    presets,
+    media,
+  };
 }
