@@ -1,0 +1,23 @@
+/**
+ * Config file loading
+ */
+import yaml from 'yaml';
+
+export type Config = {
+  libraries: {
+    /** Name of the library */
+    name: string,
+    /** Path to library's staging directory */
+    staging: string,
+    /** Path to library's production directory */
+    production: string,
+  }[],
+  /** Path to Handbrake presets directory */
+  presets: string,
+};
+
+export const CONFIG = process.env.TRANSCODED_CONFIG ?? 'config.yaml';
+
+export async function getConfig() {
+  return yaml.parse(await Bun.file(CONFIG).text()) as Config;
+}

@@ -5,6 +5,7 @@ import path from 'node:path';
  * Information about a preset
  */
 export type PresetInfo = {
+  id: number,
   /** File that the preset originated from */
   file: string,
   /** Name of the preset */
@@ -51,10 +52,16 @@ export async function findPresets(presetsDir: string): Promise<PresetInfo[]> {
   const presets: PresetInfo[] = [];
 
   for (const f of presetFiles) {
-    const filePresets = (await loadPresetFile(presetsDir, f)).PresetList
-      .map(p => ({ file: f, name: p.PresetName, description: p.PresetDescription }));
+    const filePresets = await loadPresetFile(presetsDir, f);
 
-    presets.push(...filePresets);
+    for (const preset of filePresets.PresetList) {
+      presets.push({
+        id: presets.length,
+        file: f,
+        name: preset.PresetName,
+        description: preset.PresetDescription,
+      });
+    }
   }
 
   return presets;

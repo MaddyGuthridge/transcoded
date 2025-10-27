@@ -3,14 +3,17 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileIsMedia } from './helpers';
 import { parseMediaFile } from './mediaFile';
+import type { PresetInfo } from '../handbrakePresets';
+import { enumerate } from '$lib/util';
 
 /**
  * Parse information about the given media item
  */
 export async function parseMediaItem(
+  id: number,
   stagingRoot: string,
   productionRoot: string,
-  encodingPresets: string[],
+  encodingPresets: PresetInfo[],
   itemPath: string,
 ): Promise<MediaItem> {
   const itemStaging = path.join(stagingRoot, itemPath);
@@ -21,26 +24,14 @@ export async function parseMediaItem(
 
   const mainFeature = determineMainFeature(itemStaging, mediaFiles);
 
-  const otherFiles = mediaFiles.filter(f => f !== mainFeature);
-
-  const mainFile = mainFeature
-    ? await parseMediaFile(
-        stagingRoot,
-        productionRoot,
-        encodingPresets,
-        itemPath,
-        mainFeature,
-        title,
-        true,
-      )
-    : undefined;
-
   return {
+    id,
     path: itemPath,
     title,
-    mainFile,
+    mainFile: mainFeature,
     files: await Promise.all(
-      otherFiles.map(async f => await parseMediaFile(
+      mediaFiles.map((f, i) => parseMediaFile(
+        i,
         stagingRoot,
         productionRoot,
         encodingPresets,
@@ -54,7 +45,7 @@ export async function parseMediaItem(
 }
 
 /**
- * Determines the main feature of the given item path.
+ * Determines the main feature of the given item path, returning its index.
  *
  * - If a single media item includes the string `MainFeature` in its file path, it will be the main
  *   feature, regardless of other directory contents.
@@ -64,17 +55,17 @@ export async function parseMediaItem(
 function determineMainFeature(
   itemStaging: string,
   mediaFiles: string[],
-): string | undefined {
+): number | undefined {
   const mainFeatureRegex = /Main\w?Feature/;
-  const mainFeatures: string[] = [];
-  const filesInRoot: string[] = [];
-  for (const f of mediaFiles) {
+  const mainFeatures: number[] = [];
+  const filesInRoot: number[] = [];
+  for (const [i, f] of enumerate(mediaFiles)) {
     if (mainFeatureRegex.test(f)) {
       // Contains 'MainFeature';
-      mainFeatures.push(f);
+      mainFeatures.push(i);
     } else if (path.dirname(f) === '.') {
       // Is in directory root
-      filesInRoot.push(f);
+      filesInRoot.push(i);
     }
   }
 

@@ -29,7 +29,7 @@ This project is a work in progress.
     * [ ] Queuing these operations in a web UI
 * [ ] Have a simple auth system such that only authorized users can modify the
       encoding queue.
-    * As this project is intended for home use, the auth will be extremely 
+    * As this project is intended for home use, the auth will be extremely
       simple.
 
 ## Additional notes
@@ -43,6 +43,53 @@ This project is a work in progress.
   require significant resources, and so as long as the contained video is in a
   good format, Jellyfin will have no troubles streaming media in this format to
   clients.
+
+## Configuration
+
+The YAML file at the path `$TRANSCODED_CONFIG` will be loaded as the main
+configuration.
+
+```yaml
+# List of media libraries to scan
+libraries:
+  -
+    # Each library has a display name
+    name: 'My movies'
+    # A path to the staging directory. This is where you should place
+    # full-quality rips of your media.
+    staging: '/media/movies/staging'
+    # A path to the production directory. This is where Transcoded will place
+    # encodings of your media
+    production: '/media/movies/production'
+  # You can have multiple libraries
+  - name: 'My TV shows'
+    staging: '/media/shows/staging'
+    production: '/media/shows/production'
+# Path to the presets directory
+presets: '/presets'
+```
+
+### Preset file structure
+
+The presets directory should contain JSON Handbrake presets. To create a preset
+file, create it in the Handbrake GUI, then choose `Presets` >
+`Export preset...`. Notably, the preset name will be used in the name of the
+transcoded media file, so making it something Jellyfin can parse is useful (eg
+a resolution such as `1080p`).
+
+### Media structure
+
+* Transcoded searches for media files by walking the staging directory structure
+* Any directory that has an immediate child that is a media file is considered
+  a single media item.
+* Media items can have multiple media files (eg special features), but has a
+  maximum of one main feature.
+* A media file is considered to be the main feature if it has the string
+  `Main Feature` in its filename, or if it is the only file at the top level of
+  the media item directory.
+* For each media file, the equivalent location in the production library is 
+  scanned for encodings using the discovered Handbrake presets. The preset name
+  should be placed in [square brackets].
 
 ## Developing
 
@@ -75,7 +122,7 @@ $ bun check
 
 ### Build for production
 
-The project is not in a state where I have tried setting this up yet. 
+The project is not in a state where I have tried setting this up yet.
 Eventually, I plan for this to be dockerized.
 
 ```sh

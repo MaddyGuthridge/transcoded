@@ -13,8 +13,8 @@ export type EmbeddedSubtitleInfo = {
 export type EncodingInfo = {
   /** The file-name of this particular encoding of the media file */
   filename: string,
-  /** The name of the preset used when encoding this version of the media file */
-  preset: string,
+  /** The ID of the preset used when encoding this version of the media file */
+  preset: number,
   // /** The collection of subtitles embedded in this encoding */
   // embeddedSubtitles: EmbeddedSubtitleInfo[],
 };
@@ -25,6 +25,10 @@ export type EncodingInfo = {
  * This contains information about the original, as well as its encodings and subtitle rips.
  */
 export type MediaFile = {
+  /**
+   * ID for this media file, unique within the media item.
+   */
+  id: number,
   /**
    * The path to this media file's original, relative to the root of the media item.
    *
@@ -43,12 +47,14 @@ export type MediaFile = {
  * A media item (eg a single movie, or episode of a show)
  */
 export type MediaItem = {
+  /** ID for this media item, unique within this library */
+  id: number,
   /** Path to the media item's directory */
   path: string,
   /** Title of the media */
   title: string,
-  /** Main media file. If there is no clear main feature, then this is `undefined`. */
-  mainFile: MediaFile | undefined,
+  /** ID of the main media file. If there is no clear main feature, then this is `undefined`. */
+  mainFile: number | undefined,
   /** All media files associated with this item. */
   files: MediaFile[],
 };
@@ -56,4 +62,11 @@ export type MediaItem = {
 /**
  * The full media library. A list of media items.
  */
-export type Library = MediaItem[];
+export type MediaLibrary = {
+  /** Unique ID for this library */
+  id: number,
+  name: string,
+  stagingRoot: string,
+  productionRoot: string,
+  items: MediaItem[],
+};
