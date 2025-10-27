@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import * as log from './log';
 
 /**
  * Information about a preset
@@ -44,6 +45,7 @@ async function loadPresetFile(
  * them.
  */
 export async function findPresets(presetsDir: string): Promise<PresetInfo[]> {
+  log.write(`Finding preset files in ${presetsDir}...`);
   const presetFiles = (await fs.readdir(presetsDir, { recursive: true, withFileTypes: true }))
     .filter(f => f.isFile())
     .filter(f => path.extname(f.name) === '.json')

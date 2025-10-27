@@ -2,6 +2,7 @@ import { getConfig, type Config } from './config';
 import type { MediaLibrary } from './scanner/types';
 import { findPresets, type PresetInfo } from './handbrakePresets';
 import { scanLibrary } from './scanner';
+import * as log from './log';
 
 export type Status = 'LOAD_CONFIG' | 'SCAN_MEDIA' | 'READY';
 
@@ -17,6 +18,7 @@ let media: MediaLibrary[] = [];
  * 3. Scan media libraries
  */
 export async function startup() {
+  log.write('Begin data load');
   // Reset values
   config = undefined;
   presets = [];
@@ -35,6 +37,7 @@ export async function startup() {
       ),
     ),
   );
+  log.write('All media libraries loaded');
 }
 
 /**
