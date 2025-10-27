@@ -56,11 +56,11 @@ function determineMainFeature(
   itemStaging: string,
   mediaFiles: string[],
 ): number | undefined {
-  const mainFeatureRegex = /Main\w?Feature/;
+  const mainFeatureRegex = /main[\w\-_]?feature/;
   const mainFeatures: number[] = [];
   const filesInRoot: number[] = [];
   for (const [i, f] of enumerate(mediaFiles)) {
-    if (mainFeatureRegex.test(f)) {
+    if (mainFeatureRegex.test(f.toLowerCase())) {
       // Contains 'MainFeature';
       mainFeatures.push(i);
     } else if (path.dirname(f) === '.') {
