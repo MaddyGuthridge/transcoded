@@ -1,25 +1,25 @@
-import { execa } from "execa";
-import type { Readable } from "node:stream";
+import { execa } from 'execa';
+import type { Readable } from 'node:stream';
 
 const handbrakeCli = 'HandBrakeCLI';
 
 type ProgressBase = { message: string };
 
 type ProgressWithPercent = ProgressBase & {
-  percent: number
-}
+  percent: number,
+};
 
 type ProgressWithEta = ProgressBase & ProgressWithPercent & {
   fps: {
-    current: number
-    average: number
-  }
+    current: number,
+    average: number,
+  },
   eta: {
-    hours: number
-    minutes: number
-    seconds: number
-  }
-}
+    hours: number,
+    minutes: number,
+    seconds: number,
+  },
+};
 
 export type ProgressEvent = ProgressBase | ProgressWithEta | ProgressWithPercent;
 
@@ -75,8 +75,8 @@ export function parseProgress(line: string): ProgressEvent {
         hours: parseInt(fullMatch.groups!.hh),
         minutes: parseInt(fullMatch.groups!.mm),
         seconds: parseInt(fullMatch.groups!.ss),
-      }
-    }
+      },
+    };
   } else {
     return { message: line };
   }
@@ -84,28 +84,28 @@ export function parseProgress(line: string): ProgressEvent {
 
 /**
  * Split the given stream based on the given delimiter
- * 
+ *
  * Handbrake delimits its progress messages using `\r`, which execa doesn't support directly.
  * As such, we need to manually split the stream.
  *
  * Based on https://github.com/sindresorhus/execa/issues/1210#issuecomment-3448664071
  */
 export async function* splitByDelimiter(stream: Readable, delimiter: string | RegExp) {
-	let buffer = '';
+  let buffer = '';
 
-	for await (const chunk of stream) {
-		buffer += chunk;
-		const parts = buffer.split(delimiter);
-		buffer = parts.pop()!;
+  for await (const chunk of stream) {
+    buffer += chunk;
+    const parts = buffer.split(delimiter);
+    buffer = parts.pop()!;
 
-		for (const part of parts) {
-			if (part) {
-				yield part;
-			}
-		}
-	}
+    for (const part of parts) {
+      if (part) {
+        yield part;
+      }
+    }
+  }
 
-	if (buffer) {
-		yield buffer;
-	}
+  if (buffer) {
+    yield buffer;
+  }
 }

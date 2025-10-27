@@ -1,18 +1,17 @@
 import fs from 'node:fs/promises';
-import path from "node:path";
-
+import path from 'node:path';
 
 /**
  * Information about a preset
  */
 export type PresetInfo = {
   /** File that the preset originated from */
-  file: string
+  file: string,
   /** Name of the preset */
-  name: string
+  name: string,
   /** Description of the preset */
-  description: string
-}
+  description: string,
+};
 
 /**
  * Partial type definition for a single Handbrake preset within a file
@@ -20,14 +19,14 @@ export type PresetInfo = {
  * Note that a preset file actually contains a list of these.
  */
 type HandbrakePreset = {
-  PresetDescription: string
-  PresetName: string
-}
+  PresetDescription: string,
+  PresetName: string,
+};
 
 /** Partial type definition for a handbrake preset file */
 type HandbrakePresetFile = {
   PresetList: HandbrakePreset[],
-}
+};
 
 /**
  * From the given preset file, load its info
@@ -45,18 +44,18 @@ async function loadPresetFile(
  */
 export async function findPresets(presetsDir: string): Promise<PresetInfo[]> {
   const presetFiles = (await fs.readdir(presetsDir, { recursive: true, withFileTypes: true }))
-      .filter(f => f.isFile())
-      .filter(f => path.extname(f.name) === "json")
-      .map(f => path.join(path.relative(presetsDir, f.parentPath), f.name));
+    .filter(f => f.isFile())
+    .filter(f => path.extname(f.name) === 'json')
+    .map(f => path.join(path.relative(presetsDir, f.parentPath), f.name));
 
   const presets: PresetInfo[] = [];
-  
+
   for (const f of presetFiles) {
     const filePresets = (await loadPresetFile(presetsDir, f)).PresetList
       .map(p => ({ file: f, name: p.PresetName, description: p.PresetDescription }));
-    
+
     presets.push(...filePresets);
   }
-  
+
   return presets;
 }

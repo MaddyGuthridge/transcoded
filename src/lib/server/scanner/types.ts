@@ -3,31 +3,31 @@
 /** Subtitle track embedded into media */
 export type EmbeddedSubtitleInfo = {
   /** MKV track ID */
-  id: number
+  id: number,
   /** Subtitle track language, as an IETF language tag */
-  language: string
+  language: string,
   /** The name of the subtitle track, if present */
-  name: string | undefined
-}
+  name: string | undefined,
+};
 
 export type EncodingInfo = {
   /** The file-name of this particular encoding of the media file */
-  filename: string
+  filename: string,
   /** The name of the preset used when encoding this version of the media file */
-  preset: string
+  preset: string,
   // /** The collection of subtitles embedded in this encoding */
   // embeddedSubtitles: EmbeddedSubtitleInfo[],
-}
+};
 
 /**
  * A single staging file, a part of a media item.
- * 
+ *
  * This contains information about the original, as well as its encodings and subtitle rips.
  */
 export type MediaFile = {
-  /** 
+  /**
    * The path to this media file's original, relative to the root of the media item.
-   * 
+   *
    * For example `Barbie-SEG_MainFeature_t07.mkv`
    */
   path: string,
@@ -37,7 +37,7 @@ export type MediaFile = {
   //  * List of available subtitles in the source material, generated from `mkvinfo`.
   //  */
   // availableSubtitles: EmbeddedSubtitleInfo[],
-}
+};
 
 /**
  * A media item (eg a single movie, or episode of a show)

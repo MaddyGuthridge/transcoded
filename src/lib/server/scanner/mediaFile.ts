@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
-import path from "node:path";
-import type { EncodingInfo, MediaFile } from "./types";
+import path from 'node:path';
+import type { EncodingInfo, MediaFile } from './types';
 import { fileIsMedia, removeFileExtension } from './helpers';
 // import * as mkv from '../mkvWrapper';
 
@@ -22,7 +22,7 @@ export async function parseMediaFile(
     : path.join(productionItemPath, 'extras', removeFileExtension(mediaFile));
 
   // const itemStagingFile = path.join(stagingRoot, itemPath, mediaFile);
-  
+
   return {
     path: mediaFile,
     encodings: await findEncodings(
@@ -42,14 +42,14 @@ export async function findEncodings(
   encodingPresets: string[],
   itemTitle: string,
 ): Promise<EncodingInfo[]> {
-  if (! await fs.exists(productionFileDir)) {
+  if (!await fs.exists(productionFileDir)) {
     return [];
   }
   const mediaFiles = (await fs.readdir(productionFileDir, { withFileTypes: true }))
     .filter(dirEnt => fileIsMedia(dirEnt))
     .map(dirEnt => dirEnt.name);
   return encodingPresets
-    .map(preset => {
+    .map((preset) => {
       const regex = new RegExp(`^${itemTitle} \\- \\[${preset}\\]\\.`);
       const match = mediaFiles.find(f => regex.test(f));
       if (match) {

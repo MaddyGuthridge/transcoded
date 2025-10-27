@@ -1,14 +1,14 @@
 export type TranscodeJob = {
-  type: "transcode",
+  type: 'transcode',
   /** Path to input file */
-  input: string
+  input: string,
   /** Path to output file */
-  output: string
+  output: string,
   /** Handbrake preset to use */
   preset: {
     /** Preset file */
     file: string,
     /** Preset name */
-    name: string
-  }
-}
+    name: string,
+  },
+};

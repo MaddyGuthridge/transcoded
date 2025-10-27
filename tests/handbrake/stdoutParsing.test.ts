@@ -19,18 +19,18 @@ describe('parseProgress', () => {
     expect(parseProgress('Muxing... this may take a while'))
       .toStrictEqual({ message: 'Muxing... this may take a while' });
   });
-  
+
   test('Encoding simple', () => {
     expect(parseProgress('Encoding: task 1 of 1, 0.16 %'))
-      .toStrictEqual({ 
+      .toStrictEqual({
         message: 'Encoding: task 1 of 1, 0.16 %',
         percent: 0.16,
       });
   });
-  
+
   test('Encoding full', () => {
     expect(parseProgress('Encoding: task 1 of 1, 0.17 % (35.56 fps, avg 49.69 fps, ETA 00h42m25s)'))
-      .toStrictEqual({ 
+      .toStrictEqual({
         message: 'Encoding: task 1 of 1, 0.17 % (35.56 fps, avg 49.69 fps, ETA 00h42m25s)',
         percent: 0.17,
         fps: {

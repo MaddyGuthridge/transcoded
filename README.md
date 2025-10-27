@@ -65,10 +65,12 @@ $ bun install
 $ bun run dev
 ```
 
-### Run the test suite
+### Test, lint and type-check
 
 ```sh
 $ bun test
+$ bun lint
+$ bun check
 ```
 
 ### Build for production

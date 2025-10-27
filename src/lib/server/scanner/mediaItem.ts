@@ -1,8 +1,8 @@
-import type { MediaItem } from "./types";
+import type { MediaItem } from './types';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileIsMedia } from "./helpers";
-import { parseMediaFile } from "./mediaFile";
+import { fileIsMedia } from './helpers';
+import { parseMediaFile } from './mediaFile';
 
 /**
  * Parse information about the given media item
@@ -19,20 +19,20 @@ export async function parseMediaItem(
     .filter(dirEnt => fileIsMedia(dirEnt))
     .map(dirEnt => path.relative(itemStaging, path.join(dirEnt.parentPath, dirEnt.name)));
 
-  const mainFeature = await determineMainFeature(itemStaging, mediaFiles);
+  const mainFeature = determineMainFeature(itemStaging, mediaFiles);
 
   const otherFiles = mediaFiles.filter(f => f !== mainFeature);
 
   const mainFile = mainFeature
     ? await parseMediaFile(
-      stagingRoot,
-      productionRoot,
-      encodingPresets,
-      itemPath,
-      mainFeature,
-      title,
-      true
-    )
+        stagingRoot,
+        productionRoot,
+        encodingPresets,
+        itemPath,
+        mainFeature,
+        title,
+        true,
+      )
     : undefined;
 
   return {
@@ -48,7 +48,7 @@ export async function parseMediaItem(
         f,
         title,
         false,
-      ))
+      )),
     ),
   };
 }
@@ -61,11 +61,11 @@ export async function parseMediaItem(
  * - Otherwise, if there is only one file in the top directory, it is considered the main feature.
  * - Otherwise, the main feature is undecidable.
  */
-async function determineMainFeature(
+function determineMainFeature(
   itemStaging: string,
   mediaFiles: string[],
-): Promise<string | undefined> {
-  const mainFeatureRegex = /MainFeature/;
+): string | undefined {
+  const mainFeatureRegex = /Main\w?Feature/;
   const mainFeatures: string[] = [];
   const filesInRoot: string[] = [];
   for (const f of mediaFiles) {

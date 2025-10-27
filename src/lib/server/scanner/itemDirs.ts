@@ -4,7 +4,7 @@ import { fileIsMedia } from './helpers';
 
 /**
  * Given the a staging root, find all media item directories.
- * 
+ *
  * Each item is returned as a directory path relative to `stagingRoot`
  */
 export async function findMediaItemDirs(stagingRoot: string): Promise<string[]> {
@@ -18,6 +18,7 @@ export async function findMediaItemDirs(stagingRoot: string): Promise<string[]> 
   while (queue.length) {
     const dir = queue.shift()!;
     const absoluteDir = path.join(stagingRoot, dir);
+
     if (await dirIsMediaItem(absoluteDir)) {
       mediaItems.push(dir);
     } else {

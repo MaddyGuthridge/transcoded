@@ -4,8 +4,8 @@
  * Finds all media, and scans for
  */
 
-import { findMediaItemDirs } from "./itemDirs";
-import { parseMediaItem } from "./mediaItem";
+import { findMediaItemDirs } from './itemDirs';
+import { parseMediaItem } from './mediaItem';
 
 /**
  * Scan a media library, given its root directories.
