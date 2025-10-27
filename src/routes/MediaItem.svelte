@@ -13,7 +13,7 @@
   let expanded = $state(false);
 
   const mainFile = $derived(item.files.find(f => f.id === item.mainFile));
-  const title = $derived(`${expanded ? '▾' : '▸'} ${item.title}`);
+  const title = $derived(`${expanded ? '▾' : '▸'} ${item.path}`);
 
   function toggle() {
     expanded = !expanded;
