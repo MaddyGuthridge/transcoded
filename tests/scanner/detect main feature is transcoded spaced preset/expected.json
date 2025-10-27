@@ -1,0 +1,23 @@
+{
+  "items": [
+    {
+      "id": 0,
+      "path": "The Roasted Duck",
+      "title": "The Roasted Duck",
+      "mainFile": 0,
+      "files": [
+        {
+          "id": 0,
+          "path": "The Roasted Duck.mkv",
+          "encodings": [
+            {
+              "filename": "The Roasted Duck - [Surround 1080p].mp4",
+              "preset": 1,
+              "status": "complete"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
