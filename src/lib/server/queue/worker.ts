@@ -82,4 +82,7 @@ async function transcodeJob(job: TranscodeJob, abort: AbortSignal) {
     onLog,
   );
   job.status = 'Complete';
+  job.progress.percent = 100;
+  job.progress.eta = null;
+  job.progress.fps = null;
 }
