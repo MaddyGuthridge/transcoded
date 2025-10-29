@@ -51,3 +51,8 @@ export function nextJob(): Job | null {
 export function getQueue() {
   return queue;
 }
+
+// Auto-kill worker on sigint
+process.on('SIGINT', () => {
+  worker.stop();
+});
