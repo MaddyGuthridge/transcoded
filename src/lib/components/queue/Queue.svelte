@@ -3,7 +3,7 @@
   import { createQuery } from '@tanstack/svelte-query';
   import { getQueue } from '$lib/requests';
 
-  const refetchInterval = 1000;
+  const refetchInterval = undefined; // 100_000;
 
   const queue = createQuery<Queue>(() => ({
     queryKey: ['queue'],

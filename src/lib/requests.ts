@@ -21,3 +21,34 @@ export async function getQueue(): Promise<Queue> {
   const res = await fetch(`${SERVER_URL}/api/queue`);
   return await res.json();
 }
+
+export async function queueTranscoding(
+  libraryId: number,
+  itemId: number,
+  fileId: number,
+  presetId: number,
+) {
+  console.log({
+    libraryId,
+    itemId,
+    fileId,
+    presetId,
+  });
+
+  const res = await fetch(
+    `${SERVER_URL}/api/queue/transcode`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        libraryId,
+        itemId,
+        fileId,
+        presetId,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  return await res.json();
+}

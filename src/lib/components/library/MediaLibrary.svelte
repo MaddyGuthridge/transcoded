@@ -22,7 +22,7 @@
   </thead>
   <tbody>
     {#each library.items as item (item.id)}
-      <MediaItem {item} {presets} />
+      <MediaItem {item} libraryId={library.id} {presets} />
     {/each}
   </tbody>
 </table>

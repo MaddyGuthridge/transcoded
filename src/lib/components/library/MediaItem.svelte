@@ -4,11 +4,12 @@
   import MediaFile from './MediaFile.svelte';
 
   type Props = {
+    libraryId: number,
     item: MediaItem,
     presets: PresetInfo[],
   };
 
-  const { item, presets }: Props = $props();
+  const { libraryId, item, presets }: Props = $props();
 
   let expanded = $state(false);
 
@@ -23,7 +24,14 @@
 <tr role="switch" aria-checked={expanded} onclick={toggle}>
   {#if mainFile}
     {#if !expanded}
-      <MediaFile file={mainFile} {presets} main={false} titleOverride={title} />
+      <MediaFile
+        file={mainFile}
+        {libraryId}
+        itemId={item.id}
+        {presets}
+        main={false}
+        titleOverride={title}
+      />
     {:else}
       <td>{title}</td>
     {/if}
@@ -34,7 +42,13 @@
 {#if expanded}
   {#each item.files as file (file.id)}
     <tr>
-      <MediaFile {file} {presets} main={file.id === item.mainFile} />
+      <MediaFile
+        file={file}
+        {libraryId}
+        itemId={item.id}
+        {presets}
+        main={false}
+      />
     </tr>
   {/each}
 {/if}
