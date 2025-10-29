@@ -6,9 +6,9 @@ import type { PresetInfo } from '$lib/server/handbrakePresets';
 import type { MediaLibrary } from '$lib/server/scanner/types';
 
 const presets: PresetInfo[] = [
-  { id: 0, name: '1080p', file: '1080p.json', description: 'Example' },
-  { id: 1, name: 'Surround 1080p', file: '1080p.json', description: 'Example' },
-  { id: 2, name: '2160p', file: '2160p.json', description: 'Example' },
+  { id: 0, name: '1080p', file: '1080p.json', description: 'Example', fileExtension: '.mp4' },
+  { id: 1, name: 'Surround 1080p', file: '1080p.json', description: 'Example', fileExtension: '.mp4' },
+  { id: 2, name: '2160p', file: '2160p.json', description: 'Example', fileExtension: '.mp4' },
 ];
 
 const defaultOutput: MediaLibrary = {
