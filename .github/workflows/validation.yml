@@ -1,0 +1,40 @@
+name: Test and lint
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: ["main", "v[0-9]+.[0-9]+.x", "v[0-9]+.x"]
+  pull_request:
+    branches: ["main", "v[0-9]+.[0-9]+.x", "v[0-9]+.x"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - run: bun install --frozen-lockfile
+      - run: bun prepare
+      - run: bun test
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - run: bun install --frozen-lockfile
+      - run: bun prepare
+      - run: bun lint
+
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - run: bun install --frozen-lockfile
+      - run: bun prepare
+      - run: bun check

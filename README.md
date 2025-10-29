@@ -50,6 +50,10 @@ This project is a work in progress.
   good format, Jellyfin will have no troubles streaming media in this format to
   clients.
 
+## Deploying
+
+Refer to `docker-compose.yaml` for an example which is built from source.
+
 ## Configuration
 
 The YAML file at the path `$TRANSCODED_CONFIG` will be loaded as the main
