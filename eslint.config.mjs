@@ -124,8 +124,8 @@ export default ts.config(
       '@stylistic/semi': ['error', 'always', { omitLastInOneLineBlock: true }],
       // Single quotes where possible
       '@stylistic/quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: 'never' }],
-      // Only quote object properties if it'd be a syntax error otherwise
-      '@stylistic/quote-props': ['error', 'as-needed'],
+      // Only quote object properties if it'd be a syntax error or bad style otherwise
+      '@stylistic/quote-props': ['error', 'consistent'],
       // Use one true brace style
       '@stylistic/brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
       // Always use comma for delimiting type definitions, since it matches object notation
