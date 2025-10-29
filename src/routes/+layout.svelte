@@ -1,5 +1,15 @@
 <script lang="ts">
   import favicon from '$lib/assets/favicon.svg';
+  import { browser } from '$app/environment';
+  import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        enabled: browser,
+      },
+    },
+  });
 
   const { children } = $props();
 </script>
@@ -8,6 +18,6 @@
   <link rel="icon" href={favicon} />
 </svelte:head>
 
-<h1>Transcoded Web UI</h1>
-
-{@render children?.()}
+<QueryClientProvider client={queryClient}>
+  {@render children?.()}
+</QueryClientProvider>

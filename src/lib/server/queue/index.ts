@@ -3,7 +3,9 @@ import * as worker from './worker';
 
 let nextId = 0;
 
-const queue: Job[] = [];
+export type Queue = Job[];
+
+const queue: Queue = [];
 
 export function enqueueTranscode(input: string, output: string, preset: { file: string, name: string }) {
   const id = nextId++;

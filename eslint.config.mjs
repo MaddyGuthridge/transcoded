@@ -5,6 +5,7 @@ import svelte from 'eslint-plugin-svelte';
 import svelteParser from 'svelte-eslint-parser';
 import stylistic from '@stylistic/eslint-plugin';
 import esNode from 'eslint-plugin-n';
+import pluginQuery from '@tanstack/eslint-plugin-query'
 import globals from 'globals';
 
 export default ts.config(
@@ -13,6 +14,7 @@ export default ts.config(
   ...ts.configs.stylisticTypeChecked,
   ...svelte.configs['flat/recommended'],
   stylistic.configs.recommended,
+  ...pluginQuery.configs['flat/recommended'],
   {
     plugins: {
       n: esNode,

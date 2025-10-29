@@ -11,7 +11,14 @@ export type Status = 'LOAD_CONFIG' | 'SCAN_MEDIA' | 'READY';
 // There is a potential race condition if data loading is triggered twice, and so we use this lock
 // to synchronize calls to `loadData`.
 const lock = new AsyncLock();
-let data: { config: Config, presets: PresetInfo[], media: MediaLibrary[] } | undefined = undefined;
+
+export type Data = {
+  config: Config,
+  presets: PresetInfo[],
+  media: MediaLibrary[],
+};
+
+let data: Data | undefined = undefined;
 
 /**
  * Start up the server

@@ -1,7 +1,9 @@
 <script lang="ts">
-  type Props = {
-    data: import('./$types').PageData,
-  };
+// type Props = {
+//   data: import('./$types').PageData,
+// };
 
-  const { data }: Props = $props();
+// const { data }: Props = $props();
 </script>
+
+<h1>Transcoded Web UI</h1>
