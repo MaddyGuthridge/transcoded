@@ -40,7 +40,8 @@ export async function POST(req: RequestEvent) {
     outputSubdirectory = fileWithoutExtension;
   }
 
-  const outFileName = `${fileWithoutExtension} - [${preset.name}]${preset.fileExtension}`;
+  const outFileName
+    = `${path.basename(fileWithoutExtension)} - [${preset.name}]${preset.fileExtension}`;
   const outputPath = path.join(lib.productionRoot, item.path, outputSubdirectory, outFileName);
 
   const jobId = enqueueTranscode(
