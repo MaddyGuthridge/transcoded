@@ -1,9 +1,9 @@
 <script lang="ts">
-// type Props = {
-//   data: import('./$types').PageData,
-// };
-
-// const { data }: Props = $props();
+  import { Library, Queue } from '$lib/components';
 </script>
 
 <h1>Transcoded Web UI</h1>
+
+<Library />
+
+<Queue />
