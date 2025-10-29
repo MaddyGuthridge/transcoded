@@ -26,7 +26,7 @@ const testCases = (await fs.readdir(testCasesDir, { withFileTypes: true }))
   .filter(dirEnt => !dirEnt.name.startsWith('!'))
   .map(dirEnt => dirEnt.name);
 
-test.each(testCases)('Scanner produces correct library scan: %s', async (directory) => {
+test.concurrent.each(testCases)('Scanner produces correct library scan: %s', async (directory) => {
   const staging = path.join(testCasesDir, directory, 'staging');
   const production = path.join(testCasesDir, directory, 'production');
   const partialExpected = await Bun.file(path.join(testCasesDir, directory, 'expected.json')).json();

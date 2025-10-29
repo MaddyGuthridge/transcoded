@@ -2,7 +2,7 @@ import { parseProgress, splitByDelimiter } from '$lib/server/handbrakeWrapper';
 import { test, expect, describe } from 'bun:test';
 import { Readable } from 'node:stream';
 
-test('splitByDelimiter', async () => {
+test.concurrent('splitByDelimiter', async () => {
   const s = new Readable();
   // https://stackoverflow.com/a/22085851/6335363
   s._read = () => {};
@@ -20,7 +20,7 @@ describe('parseProgress', () => {
       .toStrictEqual({ message: 'Muxing... this may take a while' });
   });
 
-  test('Encoding simple', () => {
+  test.concurrent('Encoding simple', () => {
     expect(parseProgress('Encoding: task 1 of 1, 0.16 %'))
       .toStrictEqual({
         message: 'Encoding: task 1 of 1, 0.16 %',
@@ -28,7 +28,7 @@ describe('parseProgress', () => {
       });
   });
 
-  test('Encoding full', () => {
+  test.concurrent('Encoding full', () => {
     expect(parseProgress('Encoding: task 1 of 1, 0.17 % (35.56 fps, avg 49.69 fps, ETA 00h42m25s)'))
       .toStrictEqual({
         message: 'Encoding: task 1 of 1, 0.17 % (35.56 fps, avg 49.69 fps, ETA 00h42m25s)',
