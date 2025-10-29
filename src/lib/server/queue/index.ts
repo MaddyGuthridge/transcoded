@@ -1,77 +1,50 @@
-import { handbrake } from '../handbrakeWrapper';
-import type { TranscodeJob } from './types';
-import { ExecaError } from 'execa';
-
-const threads = 2;
+import type { TranscodeJob, Job } from './types';
+import * as worker from './worker';
 
 let nextId = 0;
-let workerController: AbortController | null = null;
 
-const queue: { id: number, task: TranscodeJob }[] = [];
+const queue: Job[] = [];
 
-export function enqueue(task: TranscodeJob) {
+export function enqueueTranscode(input: string, output: string, preset: { file: string, name: string }) {
   const id = nextId++;
-  queue.push({ id, task });
-  if (!workerController) {
-    void startWorker();
+  const job: TranscodeJob = {
+    id,
+    type: 'transcode',
+    status: 'Queued',
+    input,
+    output,
+    preset,
+    logs: [],
+    progress: {
+      percent: 0,
+      fps: null,
+      eta: null,
+    },
+  };
+  queue.push(job);
+  if (!worker.running()) {
+    void worker.start();
   }
   return id;
 }
 
 /** Cancel a queued operation */
 export function cancel(id: number) {
-  const idx = queue.findIndex(t => t.id === id);
-  if (idx === 0 && workerController) {
+  const job = queue.find(t => t.id === id)!;
+  if (worker.running()) {
     // Cancel operation
-    workerController.abort();
+    worker.stop();
+    void worker.start();
   }
-  queue.splice(idx, 1);
+  job.status = 'Canceled';
 }
 
-/** Return whether the worker is currently running */
-export function running() {
-  return workerController !== null;
+/** Return a reference to the next job in the queue */
+export function nextJob(): Job | null {
+  return queue.find(job => job.status === 'Queued') ?? null;
 }
 
-async function startWorker() {
-  workerController = new AbortController();
-  try {
-    await doWork(workerController.signal);
-  } catch (e) {
-    if (e instanceof ExecaError) {
-      if (e.isCanceled) {
-        console.log('Worker was cancelled');
-      } else {
-        console.log(e);
-      }
-    } else {
-      throw e;
-    }
-  }
-  workerController = null;
-}
-
-async function doWork(abort: AbortSignal) {
-  while (queue.length) {
-    const job = queue[0];
-    switch (job.task.type) {
-      case 'transcode':
-        await transcodeJob(job.task, abort);
-        break;
-      default:
-        throw new Error(`Unknown job type: ${job.task.type}`);
-    }
-    queue.shift();
-  }
-}
-
-async function transcodeJob(job: TranscodeJob, abort: AbortSignal) {
-  await handbrake(
-    job.input,
-    job.output,
-    job.preset,
-    threads,
-    abort,
-    progress => console.log(progress),
-  );
+/** Return the full queue */
+export function getQueue() {
+  return queue;
 }
