@@ -150,6 +150,14 @@ export default ts.config(
       // Use `node:` prefix when importing from node standard library modules (they don't exist in
       // some other runtimes)
       'n/prefer-node-protocol': 'error',
+
+      // Svelte (eslint-plugin-svelte) rules
+      // ===================================
+
+      'svelte/indent': ['error', { indent: 2 }],
+      'svelte/prefer-class-directive': ['error', {'prefer': 'empty'}],
+      'svelte/prefer-style-directive': 'error',
+      'svelte/spaced-html-comment': 'error',
     },
   },
   {
