@@ -2,14 +2,26 @@
   import type { Queue } from '$lib/server/queue';
   import { createQuery } from '@tanstack/svelte-query';
   import { getQueue } from '$lib/requests';
+  import type { JobProgress } from '$lib/server/queue/types';
 
-  const refetchInterval = undefined; // 100_000;
+  const refetchInterval = 1000;
 
   const queue = createQuery<Queue>(() => ({
     queryKey: ['queue'],
     queryFn: () => getQueue(),
     refetchInterval,
   }));
+
+  function formatProgress(progress: JobProgress) {
+    let output = `${progress.percent}%`;
+    if (progress.fps) {
+      output += ` ${progress.fps.current} FPS (${progress.fps.average} avg)`;
+    }
+    if (progress.eta) {
+      output += ` ETA ${progress.eta.hours}:${progress.eta.minutes}:${progress.eta.seconds}`;
+    }
+    return output;
+  }
 </script>
 
 {#if queue.isLoading}
@@ -22,8 +34,8 @@
   <table>
     <thead>
       <tr>
-        <th>Job</th>
         <th>Status</th>
+        <th>Job</th>
         <th>Progress</th>
       </tr>
     </thead>
@@ -31,9 +43,9 @@
       {#if queue.data.length}
         {#each queue.data as job (job.id)}
           <tr>
-            <td>{job.input} => {job.output}</td>
             <td>{job.status}</td>
-            <td>{job.progress}</td>
+            <td>{job.input} => {job.output}</td>
+            <td>{formatProgress(job.progress)}</td>
           </tr>
         {/each}
       {:else}

@@ -49,7 +49,7 @@ export async function POST(req: RequestEvent) {
     inputPath,
     outputPath,
     {
-      file: preset.file,
+      file: path.join(data.config.handbrake.presets, preset.file),
       name: preset.name,
     },
   );

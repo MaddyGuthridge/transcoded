@@ -1,5 +1,18 @@
 export type JobStatus = 'Queued' | 'Canceled' | 'Working' | 'Complete' | 'Failed';
 
+export type JobProgress = {
+  percent: number,
+  fps: {
+    current: number,
+    average: number,
+  } | null,
+  eta: {
+    hours: number,
+    minutes: number,
+    seconds: number,
+  } | null,
+};
+
 export type JobBase = {
   /** Job ID */
   id: number,
@@ -9,18 +22,7 @@ export type JobBase = {
   /** Logs produced by the job */
   logs: string[],
   /** Latest progress info */
-  progress: {
-    percent: number,
-    fps: {
-      current: number,
-      average: number,
-    } | null,
-    eta: {
-      hours: number,
-      minutes: number,
-      seconds: number,
-    } | null,
-  },
+  progress: JobProgress,
 };
 
 export type TranscodeJob = JobBase & {
