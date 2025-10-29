@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PresetInfo } from '$lib/server/handbrakePresets';
   import type { MediaLibrary } from '$lib/server/scanner/types';
-    import MediaItem from './MediaItem.svelte';
+  import MediaItem from './MediaItem.svelte';
 
   type Props = {
     library: MediaLibrary,
