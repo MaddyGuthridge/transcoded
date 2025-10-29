@@ -24,13 +24,19 @@ This project is a work in progress.
           (ie resolutions)
     * [x] Determine the "main feature" of a media entry
     * [x] Display this information in a web UI
-* [ ] Automate the process of transcoding media for use with Jellyfin
+    * [x] Rescan the library on file system changes, and job status changes
+* [x] Automate the process of transcoding media for use with Jellyfin
     * [x] Transcoding operations in Handbrake
-    * [ ] Queuing these operations in a web UI
+    * [x] Queuing these operations in a web UI
+    * [x] Live-update the queue
 * [ ] Have a simple auth system such that only authorized users can modify the
       encoding queue.
     * As this project is intended for home use, the auth will be extremely
       simple.
+* [ ] A nice UI
+    * Currently it is un-styled HTML
+    * And many quality-of-life features are missing, such as the ability to
+      cancel jobs and have the library list update to show the progress of jobs
 
 ## Additional notes
 
@@ -49,25 +55,7 @@ This project is a work in progress.
 The YAML file at the path `$TRANSCODED_CONFIG` will be loaded as the main
 configuration.
 
-```yaml
-# List of media libraries to scan
-libraries:
-  -
-    # Each library has a display name
-    name: 'My movies'
-    # A path to the staging directory. This is where you should place
-    # full-quality rips of your media.
-    staging: '/media/movies/staging'
-    # A path to the production directory. This is where Transcoded will place
-    # encodings of your media
-    production: '/media/movies/production'
-  # You can have multiple libraries
-  - name: 'My TV shows'
-    staging: '/media/shows/staging'
-    production: '/media/shows/production'
-# Path to the presets directory
-presets: '/presets'
-```
+See `config.example.yaml` for an example configuration.
 
 ### Preset file structure
 
@@ -87,9 +75,9 @@ a resolution such as `1080p`).
 * A media file is considered to be the main feature if it has the string
   `Main Feature` in its filename, or if it is the only file at the top level of
   the media item directory.
-* For each media file, the equivalent location in the production library is 
+* For each media file, the equivalent location in the production library is
   scanned for encodings using the discovered Handbrake presets. The preset name
-  should be placed in [square brackets].
+  should be placed in `[` square brackets `]`.
 
 ## Developing
 
