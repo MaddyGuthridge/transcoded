@@ -1,0 +1,18 @@
+# Docker compose file to run Transcoded, built from source
+services:
+  transcoded:
+    build:
+      context: .
+    hostname: transcoded
+    user: 1000:1000
+    restart: always
+    ports:
+      - 127.0.0.1:4920:3000/tcp
+    environment:
+      # Load config from `./data/config/config.yaml` (on the host system)
+      TRANSCODED_CONFIG: "/data/config/config.yaml"
+    volumes:
+      # Mount the required data
+      - type: bind
+        source: "data"
+        target: /data

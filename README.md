@@ -110,9 +110,6 @@ $ bun check
 
 ### Build for production
 
-The project is not in a state where I have tried setting this up yet.
-Eventually, I plan for this to be dockerized.
-
 ```sh
-$ bun run build
+$ docker build .
 ```
