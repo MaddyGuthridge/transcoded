@@ -14,9 +14,12 @@ export type JobProgress = {
 };
 
 export type JobBase = {
+  /** Type of job */
+  type: string,
+  /** Title of the job */
+  title: string,
   /** Job ID */
   id: number,
-  type: string,
   /** Status of the job */
   status: JobStatus,
   /** Logs produced by the job */

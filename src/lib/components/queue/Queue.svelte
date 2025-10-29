@@ -3,6 +3,7 @@
   import { createQuery } from '@tanstack/svelte-query';
   import { getQueue } from '$lib/requests';
   import type { JobProgress } from '$lib/server/queue/types';
+  import { formatEta } from '$lib';
 
   const refetchInterval = 1000;
 
@@ -18,7 +19,7 @@
       output += ` ${progress.fps.current} FPS (${progress.fps.average} avg)`;
     }
     if (progress.eta) {
-      output += ` ETA ${progress.eta.hours}:${progress.eta.minutes}:${progress.eta.seconds}`;
+      output += ` ETA ${formatEta(progress.eta)}`;
     }
     return output;
   }
@@ -44,7 +45,7 @@
         {#each queue.data as job (job.id)}
           <tr>
             <td>{job.status}</td>
-            <td>{job.input} => {job.output}</td>
+            <td>{job.title}</td>
             <td>{formatProgress(job.progress)}</td>
           </tr>
         {/each}

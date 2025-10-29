@@ -12,6 +12,7 @@ export function enqueueTranscode(input: string, output: string, preset: { file: 
   const job: TranscodeJob = {
     id,
     type: 'transcode',
+    title: `Transcode ${input} for ${preset.name}`,
     status: 'Queued',
     input,
     output,
