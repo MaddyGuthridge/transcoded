@@ -6,9 +6,7 @@ import * as log from './log';
 
 export type Status = 'LOAD_CONFIG' | 'SCAN_MEDIA' | 'READY';
 
-let config: Config | undefined;
-let presets: PresetInfo[] = [];
-let media: MediaLibrary[] = [];
+let data: { config: Config, presets: PresetInfo[], media: MediaLibrary[] } | undefined = undefined;
 
 /**
  * Start up the server
@@ -17,16 +15,14 @@ let media: MediaLibrary[] = [];
  * 2. Load presets
  * 3. Scan media libraries
  */
-export async function startup() {
+export async function loadData() {
   log.write('Begin data load');
-  // Reset values
-  config = undefined;
-  presets = [];
-  media = [];
+  // Delete previous data
+  data = undefined;
 
-  config = await getConfig();
-  presets = await findPresets(config.presets);
-  media = await Promise.all(
+  const config = await getConfig();
+  const presets = await findPresets(config.handbrake.presets);
+  const media = await Promise.all(
     config.libraries.map((library, id) =>
       scanLibrary(
         id,
@@ -37,15 +33,15 @@ export async function startup() {
       ),
     ),
   );
+  data = { config, presets, media };
   log.write('All media libraries loaded');
+  return data;
 }
 
 /**
  * Return all the server's data
  */
-export function getData() {
-  return {
-    presets,
-    media,
-  };
+export async function getData() {
+  // FIXME: potential race condition if data loading is triggered twice
+  return data ?? await loadData();
 }

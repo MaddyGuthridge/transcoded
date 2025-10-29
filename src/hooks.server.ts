@@ -1,7 +1,7 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import type { Handle } from '@sveltejs/kit';
 import logger from './middleware/logger';
-import { startup } from '$lib/server';
+import { loadData } from '$lib/server';
 
 const middleware: Handle[] = [];
 
@@ -11,7 +11,7 @@ export const handle = sequence(...middleware);
 
 /** Called when the server starts */
 async function onStartup() {
-  await startup();
+  await loadData();
 }
 
 void onStartup();

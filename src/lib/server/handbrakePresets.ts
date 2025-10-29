@@ -13,6 +13,13 @@ export type PresetInfo = {
   name: string,
   /** Description of the preset */
   description: string,
+  /** File extension for output files produced by this preset (eg ".mp4") */
+  fileExtension: string,
+};
+
+const fileFormatToExtension: Record<string, string> = {
+  'av_mp4': '.mp4',
+  'av_mkv': '.mkv',
 };
 
 /**
@@ -23,6 +30,7 @@ export type PresetInfo = {
 type HandbrakePreset = {
   PresetDescription: string,
   PresetName: string,
+  FileFormat: string,
 };
 
 /** Partial type definition for a handbrake preset file */
@@ -62,6 +70,7 @@ export async function findPresets(presetsDir: string): Promise<PresetInfo[]> {
         file: f,
         name: preset.PresetName,
         description: preset.PresetDescription,
+        fileExtension: fileFormatToExtension[preset.FileFormat],
       });
     }
   }
