@@ -13,8 +13,12 @@ export type Config = {
     /** Path to library's production directory */
     production: string,
   }[],
-  /** Path to Handbrake presets directory */
-  presets: string,
+  handbrake: {
+    /** Path to Handbrake presets directory */
+    presets: string,
+    /** Number of encode threads for Handbrake to use */
+    threads: number,
+  },
 };
 
 export const CONFIG = process.env.TRANSCODED_CONFIG ?? 'config.yaml';

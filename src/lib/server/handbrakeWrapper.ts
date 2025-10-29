@@ -1,5 +1,6 @@
 import { execa } from 'execa';
 import type { Readable } from 'node:stream';
+import { getConfig } from './config';
 
 const handbrakeCli = 'HandBrakeCLI';
 
@@ -21,7 +22,7 @@ type ProgressWithEta = ProgressBase & ProgressWithPercent & {
   },
 };
 
-export type ProgressEvent = ProgressBase | ProgressWithEta | ProgressWithPercent;
+export type HandbrakeProgressEvent = ProgressBase | ProgressWithEta | ProgressWithPercent;
 
 export async function handbrake(
   input: string,
@@ -30,27 +31,39 @@ export async function handbrake(
     file: string,
     name: string,
   },
-  threads: number,
   abort: AbortSignal,
-  onProgress: (progress: ProgressEvent) => void,
-) {
+  onProgress: (progress: HandbrakeProgressEvent) => void,
+  onLog: (log: string) => void,
+): Promise<number> {
+  const config = await getConfig();
   const process = execa({ cancelSignal: abort })`${handbrakeCli}
-    -x threads=${threads}
+    -x threads=${config.handbrake.threads}
     --input ${input}
     --output ${output}
     --preset-import-file ${preset.file}
     -Z ${preset.name}`;
 
-  for await (const line of splitByDelimiter(process.stdout, '\r')) {
-    onProgress(parseProgress(line));
+  async function stdout() {
+    for await (const line of splitByDelimiter(process.stdout, '\r')) {
+      onProgress(parseProgress(line));
+    }
   }
 
-  const exitStatus = await process;
-  // TODO: Stream stderr logs
-  const stderr = exitStatus.stderr;
+  async function stderr() {
+    for await (const line of splitByDelimiter(process.stderr, '\n')) {
+      onLog(line);
+    }
+  }
+
+  await Promise.all([
+    stdout(),
+    stderr(),
+  ]);
+
+  return (await process).exitCode!;
 }
 
-export function parseProgress(line: string): ProgressEvent {
+export function parseProgress(line: string): HandbrakeProgressEvent {
   // Encoding: task 1 of 1, 0.16 %
   const simpleProgress = /^Encoding: task \d+ of \d+, (?<percent>\d+.\d+) %$/;
   // Encoding: task 1 of 1, 0.17 % (35.56 fps, avg 49.69 fps, ETA 00h42m25s)

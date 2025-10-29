@@ -8,5 +8,8 @@ libraries:
     # A path to the production directory. This is where Transcoded will place
     # encodings of your media
     production: "data/production"
-# Path to the presets directory
-presets: "data/presets"
+handbrake:
+  # Path to the Handbrake presets directory
+  presets: "data/presets"
+  # Number of encode threads for Handbrake to use
+  threads: 2
