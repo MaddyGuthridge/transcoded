@@ -1,7 +1,9 @@
 import { ExecaError } from 'execa';
+import fs from 'node:fs/promises';
 import { handbrake, type HandbrakeProgressEvent } from '../handbrakeWrapper';
 import { nextJob } from '.';
 import type { TranscodeJob } from './types';
+import path from 'node:path';
 
 let workerController: AbortController | null = null;
 
@@ -57,6 +59,9 @@ async function doWork(abort: AbortSignal) {
 
 /** Run a transcoding job using Handbrake */
 async function transcodeJob(job: TranscodeJob, abort: AbortSignal) {
+  // Create parent directory first
+  await fs.mkdir(path.dirname(job.output), { recursive: true });
+
   /** Callback for when progress has been made */
   function onProgress(progress: HandbrakeProgressEvent) {
     if ('percent' in progress) {
