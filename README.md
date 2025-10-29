@@ -52,6 +52,32 @@ This project is a work in progress.
 
 ## Deploying
 
+Using Docker Compose
+
+```yml
+# Transcoded
+# Example docker-compose.yml
+services:
+  transcoded:
+    image: maddyguthridge/transcoded
+
+    hostname: transcoded
+    user: 1000:1000
+    restart: always
+    ports:
+      - 0.0.0.0:5030:3000/tcp
+    volumes:
+      - "./config:/config"
+      - type: bind
+        source: "/mnt/maddyflix"
+        target: "/media"
+
+    environment:
+      TRANSCODED_CONFIG: "/config/config.yaml"
+      HOST: 0.0.0.0
+      PORT: 3000
+```
+
 Refer to `docker-compose.yaml` for an example which is built from source.
 
 ## Configuration
