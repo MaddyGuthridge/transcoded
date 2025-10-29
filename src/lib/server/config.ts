@@ -3,27 +3,30 @@
  */
 import yaml from 'yaml';
 import * as log from './log';
+import * as z from 'zod';
 
-export type Config = {
-  libraries: {
+export const Config = z.object({
+  libraries: z.array(z.object({
     /** Name of the library */
-    name: string,
+    name: z.string(),
     /** Path to library's staging directory */
-    staging: string,
+    staging: z.string(),
     /** Path to library's production directory */
-    production: string,
-  }[],
-  handbrake: {
+    production: z.string(),
+  })),
+  handbrake: z.object({
     /** Path to Handbrake presets directory */
-    presets: string,
+    presets: z.string(),
     /** Number of encode threads for Handbrake to use */
-    threads: number,
-  },
-};
+    threads: z.int(),
+  }),
+});
+
+export type Config = z.Infer<typeof Config>;
 
 export const CONFIG = process.env.TRANSCODED_CONFIG ?? 'config.yaml';
 
 export async function getConfig() {
   log.write(`Load config file '${CONFIG}'`);
-  return yaml.parse(await Bun.file(CONFIG).text()) as Config;
+  return Config.parse(yaml.parse(await Bun.file(CONFIG).text()));
 }
