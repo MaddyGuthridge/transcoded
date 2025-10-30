@@ -30,7 +30,7 @@ export async function findMediaItemDirs(stagingRoot: string): Promise<string[]> 
       }
     }
   }
-  return mediaItems;
+  return mediaItems.toSorted((a, b) => a.localeCompare(b));
 }
 
 /**

@@ -20,7 +20,8 @@ export async function parseMediaItem(
   const title = path.basename(itemPath);
   const mediaFiles = (await fs.readdir(itemStaging, { withFileTypes: true, recursive: true }))
     .filter(dirEnt => fileIsMedia(dirEnt))
-    .map(dirEnt => path.relative(itemStaging, path.join(dirEnt.parentPath, dirEnt.name)));
+    .map(dirEnt => path.relative(itemStaging, path.join(dirEnt.parentPath, dirEnt.name)))
+    .toSorted((a, b) => a.localeCompare(b));
 
   const mainFeature = determineMainFeature(itemStaging, mediaFiles);
 

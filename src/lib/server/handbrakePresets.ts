@@ -75,5 +75,5 @@ export async function findPresets(presetsDir: string): Promise<PresetInfo[]> {
     }
   }
 
-  return presets;
+  return presets.toSorted((a, b) => a.name.localeCompare(b.name));
 }
