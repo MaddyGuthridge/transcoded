@@ -20,6 +20,8 @@ export const Config = z.object({
     /** Number of encode threads for Handbrake to use */
     threads: z.int(),
   }),
+  /** Path to auth config file */
+  auth: z.union([z.string(), z.null()]),
 });
 
 export type Config = z.Infer<typeof Config>;

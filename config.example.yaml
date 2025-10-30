@@ -13,3 +13,4 @@ handbrake:
   presets: "data/presets"
   # Number of encode threads for Handbrake to use
   threads: 2
+auth: null
