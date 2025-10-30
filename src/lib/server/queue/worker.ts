@@ -25,15 +25,7 @@ export async function start() {
   try {
     await doWork(workerController.signal);
   } catch (e) {
-    if (e instanceof ExecaError) {
-      if (e.isCanceled) {
-        console.log('Worker was cancelled');
-      } else {
-        console.log(e);
-      }
-    } else {
-      throw e;
-    }
+    console.log(e);
   }
   workerController = null;
 }
@@ -41,17 +33,12 @@ export async function start() {
 async function doWork(abort: AbortSignal) {
   let job = nextJob();
   while (job !== null) {
-    try {
-      switch (job.type) {
-        case 'transcode':
-          await transcodeJob(job, abort);
-          break;
-        default:
-          throw new Error(`Unknown job type: ${job.type}`);
-      }
-    } catch (e) {
-      job.status = 'Failed';
-      throw e;
+    switch (job.type) {
+      case 'transcode':
+        await transcodeJob(job, abort);
+        break;
+      default:
+        throw new Error(`Unknown job type: ${job.type}`);
     }
     job = nextJob();
   }
@@ -77,15 +64,30 @@ async function transcodeJob(job: TranscodeJob, abort: AbortSignal) {
     job.logs.push(message);
   }
 
+  const partialFile = `${job.output}.part`;
+
   job.status = 'Working';
-  await handbrake(
-    job.input,
-    job.output,
-    job.preset,
-    abort,
-    onProgress,
-    onLog,
-  );
+  try {
+    await handbrake(
+      job.input,
+      partialFile,
+      job.preset,
+      abort,
+      onProgress,
+      onLog,
+    );
+  } catch (e) {
+    // Remove partial file
+    await fs.unlink(partialFile);
+    if (e instanceof ExecaError && e.isCanceled) {
+      console.log('Worker was cancelled');
+      job.status = 'Canceled';
+    } else {
+      job.status = 'Failed';
+    }
+    throw e;
+  }
+  await fs.rename(partialFile, job.output);
   job.status = 'Complete';
   job.progress.percent = 100;
   job.progress.eta = null;
