@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Queue } from '$lib/server/queue';
   import { createQuery } from '@tanstack/svelte-query';
-  import { getQueue } from '$lib/requests';
+  import { cancelJob, getQueue } from '$lib/requests';
   import type { JobProgress } from '$lib/server/queue/types';
   import { formatEta } from '$lib';
 
@@ -12,6 +12,11 @@
     queryFn: () => getQueue(),
     refetchInterval,
   }));
+
+  async function cancelJobButton(jobId: number) {
+    await cancelJob(jobId);
+    await queue.refetch();
+  }
 
   function formatProgress(progress: JobProgress) {
     let output = `${progress.percent}%`;
@@ -38,6 +43,7 @@
         <th>Status</th>
         <th>Job</th>
         <th>Progress</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -47,6 +53,7 @@
             <td>{job.status}</td>
             <td>{job.title}</td>
             <td>{formatProgress(job.progress)}</td>
+            <td><button onclick={() => void cancelJobButton(job.id)}>Cancel</button></td>
           </tr>
         {/each}
       {:else}

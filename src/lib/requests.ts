@@ -22,6 +22,11 @@ export async function getQueue(): Promise<Queue> {
   return await res.json();
 }
 
+export async function cancelJob(jobId: number): Promise<Queue> {
+  const res = await fetch(`${SERVER_URL}/api/queue/${jobId}/cancel`, { method: 'DELETE' });
+  return await res.json();
+}
+
 export async function queueTranscoding(
   libraryId: number,
   itemId: number,
