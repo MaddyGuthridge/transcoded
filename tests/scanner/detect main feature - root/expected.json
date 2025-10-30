@@ -4,16 +4,16 @@
       "id": 0,
       "path": "The Roasted Duck",
       "title": "The Roasted Duck",
-      "mainFile": 0,
+      "mainFile": 1,
       "files": [
         {
           "id": 0,
-          "path": "The Roasted Duck.mkv",
+          "path": "extras/Directors Commentary.mkv",
           "encodings": []
         },
         {
           "id": 1,
-          "path": "extras/Directors Commentary.mkv",
+          "path": "The Roasted Duck.mkv",
           "encodings": []
         }
       ]
