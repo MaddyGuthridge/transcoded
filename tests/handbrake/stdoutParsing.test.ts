@@ -3,12 +3,7 @@ import { test, expect, describe } from 'bun:test';
 import { Readable } from 'node:stream';
 
 test.concurrent('splitByDelimiter', async () => {
-  const s = new Readable();
-  // https://stackoverflow.com/a/22085851/6335363
-  s._read = () => {};
-  s.push('Line 1\rLine 2\rLine 3');
-  // Close stream
-  s.push(null);
+  const s = Readable.from('Line 1\rLine 2\rLine 3');
 
   const result = await Array.fromAsync(splitByDelimiter(s, '\r'));
   expect(result).toStrictEqual(['Line 1', 'Line 2', 'Line 3']);
