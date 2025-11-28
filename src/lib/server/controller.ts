@@ -1,4 +1,5 @@
 import { todo } from '$lib/util';
+import type { AuthManager } from './auth';
 import type { HandbrakePreset } from './handbrakePresets';
 
 /**
@@ -11,15 +12,17 @@ import type { HandbrakePreset } from './handbrakePresets';
 export type When = 'now' | 'next' | 'later';
 
 export class TranscodedController {
-  #stateDir: string;
+  #auth: AuthManager;
 
   /**
    * Construct a new transcoded controller, using the given state directory.
    *
    * If data exists within the state, it is loaded. Otherwise, the state starts empty.
    */
-  constructor(stateDir: string) {
-    this.#stateDir = stateDir;
+  constructor(
+    auth: AuthManager,
+  ) {
+    this.#auth = auth;
   }
 
   /**
@@ -27,8 +30,16 @@ export class TranscodedController {
    * @param username
    * @param password
    */
-  async login(username: string, password: string): Promise<string> {
-    todo();
+  login(username: string, password: string): Promise<string> {
+    return this.#auth.login(username, password);
+  }
+
+  logout(session: string): Promise<void> {
+    return this.#auth.logout(session);
+  }
+
+  logoutAll(session: string): Promise<void> {
+    return this.#auth.logoutAll(session);
   }
 
   /**
@@ -36,7 +47,8 @@ export class TranscodedController {
    *
    * @param session session ID for authentication.
    */
-  getLibraries(session: string) {
+  async getLibraries(session: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -45,7 +57,8 @@ export class TranscodedController {
    *
    * @param session session ID for authentication.
    */
-  getMedia(session: string) {
+  async getMedia(session: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -54,7 +67,8 @@ export class TranscodedController {
    *
    * @param session session ID for authentication.
    */
-  getPresets(session: string) {
+  async getPresets(session: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -67,6 +81,7 @@ export class TranscodedController {
     session: string,
     preset: HandbrakePreset,
   ): string {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -82,6 +97,7 @@ export class TranscodedController {
     presetId: string,
     preset: HandbrakePreset,
   ) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -94,12 +110,13 @@ export class TranscodedController {
    * @param name name of the preset to rename.
    * @return jobId
    */
-  qRenamePreset(
+  async qRenamePreset(
     session: string,
     when: When,
     presetId: string,
     name: string,
   ): string {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -112,7 +129,7 @@ export class TranscodedController {
    * @param options how to handle existing encodings.
    * @return jobId
    */
-  qRemovePreset(
+  async qRemovePreset(
     session: string,
     when: When,
     presetId: string,
@@ -125,6 +142,7 @@ export class TranscodedController {
       mode: 'ignore',
     },
   ): string {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -158,7 +176,8 @@ export class TranscodedController {
    * @param session session ID for authentication.
    * @param libraryId the ID of the library to deregister.
    */
-  deregisterLibrary(session: string, libraryId: string) {
+  async deregisterLibrary(session: string, libraryId: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -182,6 +201,7 @@ export class TranscodedController {
     newStagingRoot: string,
     newProductionRoot: string,
   ): string {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -192,6 +212,7 @@ export class TranscodedController {
    * @param libraryId the ID of the library to scan.
    */
   async scanLibrary(session: string, libraryId: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -201,6 +222,7 @@ export class TranscodedController {
    * @param session session ID for authentication.
    */
   async scanAllLibraries(session: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -216,13 +238,14 @@ export class TranscodedController {
    * @param newProductionRoot the new production root of the library.
    * @return jobId
    */
-  qMoveLibrary(
+  async qMoveLibrary(
     session: string,
     when: When,
     libraryId: string,
     newStagingRoot: string,
     newProductionRoot: string,
   ): string {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -235,12 +258,13 @@ export class TranscodedController {
    * @param libraryId the ID of the library to move to.
    * @return jobId
    */
-  qMoveMediaToLibrary(
+  async qMoveMediaToLibrary(
     session: string,
     when: When,
     mediaId: string,
     targetLibraryId: string,
   ): string {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -253,12 +277,13 @@ export class TranscodedController {
    * @param newName the new name to give the media.
    * @return jobId
    */
-  qRenameMedia(
+  async qRenameMedia(
     session: string,
     when: When,
     mediaId: string,
     newName: string,
   ): string {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -270,7 +295,8 @@ export class TranscodedController {
    * @param session session ID for authentication.
    * @param mediaId the ID of the media to deregister.
    */
-  deregisterMedia(session: string, mediaId: string) {
+  async deregisterMedia(session: string, mediaId: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -286,13 +312,14 @@ export class TranscodedController {
    * @param newFile the new file name, which the file will be renamed to.
    * @return jobId
    */
-  qMoveFile(
+  async qMoveFile(
     session: string,
     when: When,
     mediaId: string,
     oldFile: string,
     newFile: string,
   ): string {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -302,7 +329,8 @@ export class TranscodedController {
    * @param session session ID for authentication.
    * @param jobId ID of job to cancel.
    */
-  cancelJob(session: string, jobId: string) {
+  async cancelJob(session: string, jobId: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -312,7 +340,8 @@ export class TranscodedController {
    * @param session session ID for authentication.
    * @param autoStart whether the worker should automatically start when new jobs are added.
    */
-  autoStartWorker(session: string, autoStart: boolean) {
+  async autoStartWorker(session: string, autoStart: boolean) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -321,7 +350,8 @@ export class TranscodedController {
    *
    * @param session session ID for authentication.
    */
-  startWorker(session: string) {
+  async startWorker(session: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -331,6 +361,7 @@ export class TranscodedController {
    * @param session session ID for authentication.
    */
   async stepWorker(session: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -342,6 +373,7 @@ export class TranscodedController {
    * finish (false).
    */
   async stopWorker(session: string, now: boolean) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -350,7 +382,8 @@ export class TranscodedController {
    *
    * @param session session ID for authentication.
    */
-  restartWorker(session: string) {
+  async restartWorker(session: string) {
+    await this.#auth.validate(session);
     todo();
   }
 
@@ -359,7 +392,8 @@ export class TranscodedController {
    *
    * @param session session ID for authentication.
    */
-  workerStopped(session: string): Promise<void> {
+  async workerStopped(session: string): Promise<void> {
+    await this.#auth.validate(session);
     todo();
   }
 }

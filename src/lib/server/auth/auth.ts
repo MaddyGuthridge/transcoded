@@ -1,6 +1,6 @@
 import { zodParse } from '$lib/components/helpers';
 import { error, type Cookies } from '@sveltejs/kit';
-import { getConfig } from './config';
+import { getConfig } from '../config';
 import * as z from 'zod';
 import { nanoid } from 'nanoid';
 
