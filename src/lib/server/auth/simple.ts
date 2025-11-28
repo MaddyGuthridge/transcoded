@@ -52,9 +52,10 @@ export class SimpleAuth implements AuthManager {
     }
   }
 
-  logoutAll(): Promise<void> {
+  async logoutAll(session: string): Promise<void> {
+    await this.validate(session);
     this.#sessions = [];
-    return Promise.resolve();
+    return;
   }
 }
 
