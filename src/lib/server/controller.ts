@@ -163,6 +163,7 @@ export class TranscodedController {
     stagingRoot: string,
     productionRoot: string,
   ): Promise<string> {
+    await this.#auth.validate(session);
     todo();
   }
 
