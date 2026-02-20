@@ -80,8 +80,9 @@ export class TranscodedController {
   async addPreset(
     session: string,
     preset: HandbrakePreset,
-  ): string {
+  ): Promise<string> {
     await this.#auth.validate(session);
+    void preset;
     todo();
   }
 
@@ -98,6 +99,8 @@ export class TranscodedController {
     preset: HandbrakePreset,
   ) {
     await this.#auth.validate(session);
+    void presetId;
+    void preset;
     todo();
   }
 
@@ -115,8 +118,11 @@ export class TranscodedController {
     when: When,
     presetId: string,
     name: string,
-  ): string {
+  ): Promise<string> {
     await this.#auth.validate(session);
+    void when;
+    void presetId;
+    void name;
     todo();
   }
 
@@ -141,8 +147,11 @@ export class TranscodedController {
     } | {
       mode: 'ignore',
     },
-  ): string {
+  ): Promise<string> {
     await this.#auth.validate(session);
+    void when;
+    void presetId;
+    void options;
     todo();
   }
 
@@ -164,6 +173,9 @@ export class TranscodedController {
     productionRoot: string,
   ): Promise<string> {
     await this.#auth.validate(session);
+    void name;
+    void stagingRoot;
+    void productionRoot;
     todo();
   }
 
@@ -179,6 +191,7 @@ export class TranscodedController {
    */
   async deregisterLibrary(session: string, libraryId: string) {
     await this.#auth.validate(session);
+    void libraryId;
     todo();
   }
 
@@ -201,8 +214,11 @@ export class TranscodedController {
     libraryId: string,
     newStagingRoot: string,
     newProductionRoot: string,
-  ): string {
+  ): Promise<string> {
     await this.#auth.validate(session);
+    void libraryId;
+    void newStagingRoot;
+    void newProductionRoot;
     todo();
   }
 
@@ -214,6 +230,7 @@ export class TranscodedController {
    */
   async scanLibrary(session: string, libraryId: string) {
     await this.#auth.validate(session);
+    void libraryId;
     todo();
   }
 
@@ -245,8 +262,12 @@ export class TranscodedController {
     libraryId: string,
     newStagingRoot: string,
     newProductionRoot: string,
-  ): string {
+  ): Promise<string> {
     await this.#auth.validate(session);
+    void when;
+    void libraryId;
+    void newStagingRoot;
+    void newProductionRoot;
     todo();
   }
 
@@ -264,8 +285,10 @@ export class TranscodedController {
     when: When,
     mediaId: string,
     targetLibraryId: string,
-  ): string {
+  ): Promise<string> {
     await this.#auth.validate(session);
+    void mediaId;
+    void targetLibraryId;
     todo();
   }
 
@@ -283,8 +306,11 @@ export class TranscodedController {
     when: When,
     mediaId: string,
     newName: string,
-  ): string {
+  ): Promise<string> {
     await this.#auth.validate(session);
+    void when;
+    void mediaId;
+    void newName;
     todo();
   }
 
@@ -298,6 +324,7 @@ export class TranscodedController {
    */
   async deregisterMedia(session: string, mediaId: string) {
     await this.#auth.validate(session);
+    void mediaId;
     todo();
   }
 
@@ -319,8 +346,12 @@ export class TranscodedController {
     mediaId: string,
     oldFile: string,
     newFile: string,
-  ): string {
+  ): Promise<string> {
     await this.#auth.validate(session);
+    void when;
+    void mediaId;
+    void oldFile;
+    void newFile;
     todo();
   }
 
@@ -332,6 +363,7 @@ export class TranscodedController {
    */
   async cancelJob(session: string, jobId: string) {
     await this.#auth.validate(session);
+    void jobId;
     todo();
   }
 
@@ -343,6 +375,7 @@ export class TranscodedController {
    */
   async autoStartWorker(session: string, autoStart: boolean) {
     await this.#auth.validate(session);
+    void autoStart;
     todo();
   }
 
@@ -372,9 +405,13 @@ export class TranscodedController {
    * @param session session ID for authentication.
    * @param now whether to stop the worker immediately (true), or wait for the current job to
    * finish (false).
+   *
+   * Returns when the stop has been requested. This doesn't necessarily mean that the worker has
+   * stopped yet. Use `workerStopped` to wait until the worker has properly stopped.
    */
   async stopWorker(session: string, now: boolean) {
     await this.#auth.validate(session);
+    void now;
     todo();
   }
 
