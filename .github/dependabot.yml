@@ -4,11 +4,46 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-  - package-ecosystem: "docker"
-    # Dockerfiles are in subdirectory
-    directory: "/docker"
-    schedule:
-      interval: "monthly"
+    groups:
+      eslint:
+        applies-to: version-updates
+        patterns:
+          - "eslint"
+          - "eslint-plugin-*"
+          - "@types/eslint"
+          - "@eslint/*"
+          - "typescript-eslint"
+          - "@stylistic/eslint-plugin"
+          - "@tanstack/eslint-plugin-query"
+          - "globals"
+      typescript:
+        applies-to: version-updates
+        patterns:
+          - "typescript"
+          - "tslib"
+      svelte:
+        applies-to: version-updates
+        patterns:
+          - "svelte"
+          - "@sveltejs/*"
+          - "svelte-check"
+          - "vite"
+          - "vite-plugin-commonjs"
+      vitest:
+        applies-to: version-updates
+        patterns:
+          - "vitest"
+          - "@vitest/coverage-v8"
+    ignore:
+      # No major @types/node updates, since they should follow the project's
+      # target node version.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+  # - package-ecosystem: "docker"
+  #   # Dockerfiles are in subdirectory
+  #   directory: "/docker"
+  #   schedule:
+  #     interval: "monthly"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
