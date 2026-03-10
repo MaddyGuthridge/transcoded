@@ -76,6 +76,7 @@ export class TranscodedController {
    * Add a preset to Transcoded.
    *
    * @param session session ID for authentication.
+   * @return preset ID
    */
   async addPreset(
     session: string,
