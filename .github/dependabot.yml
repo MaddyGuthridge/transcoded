@@ -28,7 +28,7 @@ updates:
           - "@sveltejs/*"
           - "svelte-check"
           - "vite"
-          - "vite-plugin-commonjs"
+          - "vite-plugin-*"
       vitest:
         applies-to: version-updates
         patterns:
