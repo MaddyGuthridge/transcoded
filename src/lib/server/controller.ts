@@ -369,12 +369,32 @@ export class TranscodedController {
   }
 
   /**
+   * Returns brief info about all jobs.
+   * @param session session ID for authentication.
+   */
+  async jobList(session: string) {
+    await this.#auth.validate(session);
+    todo();
+  }
+
+  /**
+   * Returns detailed info about a specific job.
+   * @param session session ID for authentication.
+   * @param jobId ID of job to get info about.
+   */
+  async jobInfo(session: string, jobId: string) {
+    await this.#auth.validate(session);
+    void jobId;
+    todo();
+  }
+
+  /**
    * Configure whether the worker should auto-start.
    *
    * @param session session ID for authentication.
    * @param autoStart whether the worker should automatically start when new jobs are added.
    */
-  async autoStartWorker(session: string, autoStart: boolean) {
+  async configWorkerAutostart(session: string, autoStart: boolean) {
     await this.#auth.validate(session);
     void autoStart;
     todo();
@@ -431,7 +451,7 @@ export class TranscodedController {
    *
    * @param session session ID for authentication.
    */
-  async workerStopped(session: string): Promise<void> {
+  async waitForWorkerStop(session: string): Promise<void> {
     await this.#auth.validate(session);
     todo();
   }
