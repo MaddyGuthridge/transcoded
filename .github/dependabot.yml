@@ -37,6 +37,7 @@ updates:
         patterns:
           - "vitest"
           - "@vitest/coverage-v8"
+          - "jest-extended"
     ignore:
       # No major @types/node updates, since they should follow the project's
       # target node version.
