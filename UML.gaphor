@@ -54,7 +54,6 @@
 <ref refid="f32935fe-21fe-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="f9bce2e4-21fe-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="52d67584-21ff-11f1-8e3a-dc41a9fd75a0"/>
-<ref refid="61ad594c-21ff-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="644ec0b4-21ff-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="97d019b0-21ff-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="9ad441fe-21ff-11f1-8e3a-dc41a9fd75a0"/>
@@ -103,7 +102,6 @@
 <ref refid="f32935fe-21fe-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="f9bce2e4-21fe-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="52d67584-21ff-11f1-8e3a-dc41a9fd75a0"/>
-<ref refid="61ad594c-21ff-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="644ec0b4-21ff-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="97d019b0-21ff-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="9ad441fe-21ff-11f1-8e3a-dc41a9fd75a0"/>
@@ -168,7 +166,6 @@
 <ref refid="d847f392-21fe-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="f2a6257e-21fe-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="f92ce59a-21fe-11f1-8e3a-dc41a9fd75a0"/>
-<ref refid="612722b4-21ff-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="63c5cf8e-21ff-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="91419934-21ff-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="96412fa8-21ff-11f1-8e3a-dc41a9fd75a0"/>
@@ -2921,7 +2918,7 @@
 </UML:Interface>
 <UML:InterfaceItem id="08aa9ffc-21fb-11f1-8e3a-dc41a9fd75a0">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 1761.1935217165524, 1133.5137271996473)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 1761.1935217165528, 1133.5137271996473)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
@@ -2946,6 +2943,9 @@
 <interface_>
 <ref refid="08a986ee-21fb-11f1-8e3a-dc41a9fd75a0"/>
 </interface_>
+<isAbstract>
+<val>True</val>
+</isAbstract>
 <name>
 <val>begin</val>
 </name>
@@ -2994,6 +2994,9 @@
 <interface_>
 <ref refid="08a986ee-21fb-11f1-8e3a-dc41a9fd75a0"/>
 </interface_>
+<isAbstract>
+<val>True</val>
+</isAbstract>
 <name>
 <val>getStatus</val>
 </name>
@@ -5357,7 +5360,6 @@
 <ref refid="79b601e8-21fe-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="a913891a-21fe-11f1-8e3a-dc41a9fd75a0"/>
 <ref refid="f3296326-21fe-11f1-8e3a-dc41a9fd75a0"/>
-<ref refid="61ae1792-21ff-11f1-8e3a-dc41a9fd75a0"/>
 </reflist>
 </ownedAttribute>
 <owningPackage>
@@ -6043,87 +6045,6 @@
 <ref refid="52d67584-21ff-11f1-8e3a-dc41a9fd75a0"/>
 </subject>
 </UML:ClassItem>
-<UML:AssociationItem id="612722b4-21ff-11f1-8e3a-dc41a9fd75a0">
-<diagram>
-<ref refid="58d6c536-66f8-11ec-b4c8-0456e5e540ed"/>
-</diagram>
-<head_subject>
-<ref refid="61adfc6c-21ff-11f1-8e3a-dc41a9fd75a0"/>
-</head_subject>
-<horizontal>
-<val>False</val>
-</horizontal>
-<orthogonal>
-<val>False</val>
-</orthogonal>
-<subject>
-<ref refid="61ad594c-21ff-11f1-8e3a-dc41a9fd75a0"/>
-</subject>
-<tail_subject>
-<ref refid="61ae1792-21ff-11f1-8e3a-dc41a9fd75a0"/>
-</tail_subject>
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 1382.2670857475246, 2353.0801472556127)</val>
-</matrix>
-<points>
-<val>[(69.60791425247567, 10.461857408948617), (417.8343220765287, -220.06140113604988)]</val>
-</points>
-<head-connection>
-<ref refid="42287210-21fe-11f1-8e3a-dc41a9fd75a0"/>
-</head-connection>
-<tail-connection>
-<ref refid="ca9e3e60-21fc-11f1-8e3a-dc41a9fd75a0"/>
-</tail-connection>
-</UML:AssociationItem>
-<UML:Association id="61ad594c-21ff-11f1-8e3a-dc41a9fd75a0">
-<memberEnd>
-<reflist>
-<ref refid="61adfc6c-21ff-11f1-8e3a-dc41a9fd75a0"/>
-<ref refid="61ae1792-21ff-11f1-8e3a-dc41a9fd75a0"/>
-</reflist>
-</memberEnd>
-<ownedEnd>
-<reflist>
-<ref refid="61adfc6c-21ff-11f1-8e3a-dc41a9fd75a0"/>
-</reflist>
-</ownedEnd>
-<owningPackage>
-<ref refid="58d6c2e8-66f8-11ec-b4c8-0456e5e540ed"/>
-</owningPackage>
-<package>
-<ref refid="58d6c2e8-66f8-11ec-b4c8-0456e5e540ed"/>
-</package>
-<presentation>
-<reflist>
-<ref refid="612722b4-21ff-11f1-8e3a-dc41a9fd75a0"/>
-</reflist>
-</presentation>
-</UML:Association>
-<UML:Property id="61adfc6c-21ff-11f1-8e3a-dc41a9fd75a0">
-<association>
-<ref refid="61ad594c-21ff-11f1-8e3a-dc41a9fd75a0"/>
-</association>
-<owningAssociation>
-<ref refid="61ad594c-21ff-11f1-8e3a-dc41a9fd75a0"/>
-</owningAssociation>
-<type>
-<ref refid="4227eb56-21fe-11f1-8e3a-dc41a9fd75a0"/>
-</type>
-</UML:Property>
-<UML:Property id="61ae1792-21ff-11f1-8e3a-dc41a9fd75a0">
-<aggregation>
-<val>shared</val>
-</aggregation>
-<association>
-<ref refid="61ad594c-21ff-11f1-8e3a-dc41a9fd75a0"/>
-</association>
-<structuredClassifier>
-<ref refid="4227eb56-21fe-11f1-8e3a-dc41a9fd75a0"/>
-</structuredClassifier>
-<type>
-<ref refid="ca9db26a-21fc-11f1-8e3a-dc41a9fd75a0"/>
-</type>
-</UML:Property>
 <UML:AssociationItem id="63c5cf8e-21ff-11f1-8e3a-dc41a9fd75a0">
 <diagram>
 <ref refid="58d6c536-66f8-11ec-b4c8-0456e5e540ed"/>
