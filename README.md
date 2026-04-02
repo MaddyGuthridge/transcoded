@@ -1,4 +1,4 @@
-# Transcoded
+# Jellybake
 
 A video transcoding manager for home media servers.
 
