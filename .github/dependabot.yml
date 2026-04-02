@@ -31,6 +31,7 @@ updates:
           - "svelte-check"
           - "vite"
           - "vite-plugin-*"
+          - "svelte-adapter-*"
       vitest:
         applies-to: version-updates
         patterns:
