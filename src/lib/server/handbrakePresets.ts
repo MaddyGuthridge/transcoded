@@ -27,14 +27,14 @@ const fileFormatToExtension: Record<string, string> = {
  *
  * Note that a preset file actually contains a list of these.
  */
-type HandbrakePreset = {
+export type HandbrakePreset = {
   PresetDescription: string,
   PresetName: string,
   FileFormat: string,
 };
 
 /** Partial type definition for a handbrake preset file */
-type HandbrakePresetFile = {
+export type HandbrakePresetFile = {
   PresetList: HandbrakePreset[],
 };
 
