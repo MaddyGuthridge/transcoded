@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { expect, test } from 'bun:test';
+import { expect, test } from 'vitest';
 import { scanLibrary } from '$lib/server/scanner';
 import type { PresetInfo } from '$lib/server/handbrakePresets';
 import type { MediaLibrary } from '$lib/server/scanner/types';
@@ -29,7 +29,7 @@ const testCases = (await fs.readdir(testCasesDir, { withFileTypes: true }))
 test.concurrent.each(testCases)('Scanner produces correct library scan: %s', async (directory) => {
   const staging = path.join(testCasesDir, directory, 'staging');
   const production = path.join(testCasesDir, directory, 'production');
-  const partialExpected = await Bun.file(path.join(testCasesDir, directory, 'expected.json')).json();
+  const partialExpected = JSON.parse(await fs.readFile(path.join(testCasesDir, directory, 'expected.json'), { encoding: 'utf-8' }));
 
   const expected = { ...defaultOutput, ...partialExpected };
 

@@ -5,8 +5,14 @@ updates:
     schedule:
       interval: "monthly"
     cooldown:
-      default-days: 3
+      default-days: 7
     groups:
+      marked:
+        applies-to: version-updates
+        patterns:
+          - "marked"
+          - "marked-*"
+          - "@maddyguthridge/marked-mermaid"
       eslint:
         applies-to: version-updates
         patterns:
@@ -53,4 +59,4 @@ updates:
     schedule:
       interval: "monthly"
     cooldown:
-      default-days: 3
+      default-days: 7

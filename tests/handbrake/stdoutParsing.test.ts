@@ -1,5 +1,5 @@
 import { parseProgress, splitByDelimiter } from '$lib/server/handbrakeWrapper';
-import { test, expect, describe } from 'bun:test';
+import { test, expect, describe } from 'vitest';
 import { Readable } from 'node:stream';
 
 test.concurrent('splitByDelimiter', async () => {

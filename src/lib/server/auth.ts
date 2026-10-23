@@ -1,3 +1,5 @@
+import fs from 'node:fs/promises';
+
 import { zodParse } from '$lib/components/helpers';
 import { error, type Cookies } from '@sveltejs/kit';
 import { getConfig } from './config';
@@ -63,5 +65,5 @@ export async function getAuthConfig(): Promise<AuthConfig | null> {
   if (!config.auth) {
     return null;
   }
-  return zodParse(AuthConfig, await Bun.file(config.auth).json());
+  return zodParse(AuthConfig, JSON.parse(await fs.readFile(config.auth, { encoding: 'utf-8' })));
 }
