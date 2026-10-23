@@ -4,6 +4,7 @@
 import yaml from 'yaml';
 import * as log from './log';
 import * as z from 'zod';
+import * as fs from 'node:fs/promises';
 
 export const Config = z.object({
   libraries: z.array(z.object({
@@ -30,5 +31,5 @@ export const CONFIG = process.env.TRANSCODED_CONFIG ?? 'config.yaml';
 
 export async function getConfig() {
   log.write(`Load config file '${CONFIG}'`);
-  return Config.parse(yaml.parse(await Bun.file(CONFIG).text()));
+  return Config.parse(yaml.parse(await fs.readFile(CONFIG, { encoding: 'utf-8' })));
 }

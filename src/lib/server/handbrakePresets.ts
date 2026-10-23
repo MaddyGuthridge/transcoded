@@ -45,7 +45,7 @@ async function loadPresetFile(
   presetsDir: string,
   file: string,
 ): Promise<HandbrakePresetFile> {
-  return Bun.file(path.join(presetsDir, file)).json() as Promise<HandbrakePresetFile>;
+  return JSON.parse(await fs.readFile(path.join(presetsDir, file), { encoding: 'utf-8' })) as HandbrakePresetFile;
 }
 
 /**

@@ -43,7 +43,7 @@ export async function findEncodings(
   productionFileDir: string,
   encodingPresets: PresetInfo[],
 ): Promise<EncodingInfo[]> {
-  if (!await fs.exists(productionFileDir)) {
+  if ((await fs.stat(productionFileDir).then(() => false).catch(() => true))) {
     return [];
   }
   const mediaFiles = (await fs.readdir(productionFileDir, { withFileTypes: true }))
